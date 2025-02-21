@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/opcion1"
-        android:title="Configuración"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/opcion2"
-        android:title="Nueva Asignatura"
+        android:title="@string/Config"
         app:showAsAction="never" />
 </menu>
