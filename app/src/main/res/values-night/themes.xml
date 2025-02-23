@@ -3,9 +3,7 @@
     <style name="Theme.Proyecto" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Colores de la Toolbar y demás componentes -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 </resources>

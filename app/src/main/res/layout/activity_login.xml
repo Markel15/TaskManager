@@ -51,7 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/sign_in"
-        android:radius="16dp"
         android:background="@drawable/rounded_sec_button"
         android:titleTextColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
