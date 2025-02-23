@@ -7,4 +7,5 @@
     <string name="pass">Contraseña</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="sign_in">Registrarse</string>
+    <string name="credenciales_incorrectas">Credenciales incorrectas</string>
 </resources>

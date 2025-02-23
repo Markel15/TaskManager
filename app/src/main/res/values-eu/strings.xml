@@ -8,4 +8,5 @@
     <string name="pass">Pasahitza</string>
     <string name="log_in">Hasi saioa</string>
     <string name="sign_in">Izena eman</string>
+    <string name="credenciales_incorrectas">Datu okerrak</string>
 </resources>
