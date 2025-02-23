@@ -34,6 +34,7 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+    implementation libs.jbcrypt  // Para el cifrado de las contraseñas
     implementation libs.appcompat.v140 // Para el toolbar
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

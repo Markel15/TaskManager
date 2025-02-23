@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class RegisterActivity extends AppCompatActivity {
     private EditText etUsername, etPassword;
     private Button btnRegister;
@@ -51,10 +53,15 @@ public class RegisterActivity extends AppCompatActivity {
         }
         c.close();
         // Como el cursor devuelve false si no se ha encontrado el usuario seguiría por aquí para crearlo
+
+        // Cifrar la contraseña antes de almacenarla
+        String sal = BCrypt.gensalt();
+        String hashedPassword = BCrypt.hashpw(password, sal);
         ContentValues values = new ContentValues();
         values.put("username", username);
-        values.put("password", password);
+        values.put("password", hashedPassword);
         long result = bd.insert("usuarios", null, values);
+        bd.close();
         return result != -1; // Devuelve true si no han habido errores, sino, insert devuelve -1 y esta comprobación devolvería false
     }
 }
