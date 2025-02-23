@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 new String[]{username, password});
         boolean resultado = cursor.moveToFirst();
         cursor.close();
+        bd.close();
         return resultado;
     }
 

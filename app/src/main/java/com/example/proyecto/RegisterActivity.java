@@ -42,9 +42,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean registerUser(String username, String password) {
-        SQLiteDatabase db = miDb.getWritableDatabase();
+        SQLiteDatabase bd = miDb.getWritableDatabase();
         // Comprobar si el usuario ya existe
-        Cursor c = db.rawQuery("SELECT * FROM users WHERE username = ?", new String[]{username});
+        Cursor c = bd.rawQuery("SELECT * FROM usuarios WHERE username = ?", new String[]{username});
         if (c.moveToFirst()) {
             c.close();
             return false; // Usuario existente
@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("username", username);
         values.put("password", password);
-        long result = db.insert("usuarios", null, values);
+        long result = bd.insert("usuarios", null, values);
         return result != -1; // Devuelve true si no han habido errores, sino, insert devuelve -1 y esta comprobación devolvería false
     }
 }
