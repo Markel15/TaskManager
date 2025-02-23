@@ -26,16 +26,24 @@ public class miBD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String comando = "CREATE TABLE tareas (" +
+        String comando1 = "CREATE TABLE tareas (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "titulo TEXT NOT NULL, " +
                 "descripcion TEXT, " +
                 "fechaCreacion INTEGER, " +
                 "FechaFinalizacion INTEGER, " +
                 "completeado INTEGER DEFAULT 0, " +
-                "prioridad INTEGER DEFAULT 0" +
+                "prioridad INTEGER DEFAULT 0," +
+                "usuarioId INTEGER NOT NULL," +
+                "FOREIGN KEY (id) REFERENCES usuarios(id) ON DELETE CASCADE"+
                 ");";
-        db.execSQL(comando);
+        String comando2 = "CREATE TABLE usuarios (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "username TEXT NOT NULL UNIQUE, " +
+                "password TEXT NOT NULL" +
+                ");";
+        db.execSQL(comando1);
+        db.execSQL(comando2);
     }
 
     @Override
