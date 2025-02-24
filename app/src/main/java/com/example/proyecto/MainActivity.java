@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         // Obtener las tareas del usuario
-        List<Tarea> taskList = getTasksForUser(userId);
-
+        List<Tarea> taskList = obtenerTarasParaUsu(userId);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.labarra));
+        // Configurar los elementos a mostrar
+        RecyclerView lalista= findViewById(R.id.recyclerViewTareas);
+        TareaAdapter adapter = new TareaAdapter(taskList);
+        lalista.setAdapter(adapter);
         Window window = getWindow();
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary)); // Usar el color de la Toolbar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     @SuppressLint("Range")  // Omitir los warnings en los que las columnas no existan, la base de datos se va a crear con esos nombres
-    public List<Tarea> getTasksForUser(int usuId) {
+    public List<Tarea> obtenerTarasParaUsu(int usuId) {
         List<Tarea> tareas = new ArrayList<>();
         SQLiteDatabase bd = miDb.getReadableDatabase();
         Cursor cursor = bd.rawQuery("SELECT * FROM tareas WHERE usuarioId = ? ORDER BY FechaFinalizacion ASC",
