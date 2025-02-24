@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        miDb = miBD.getMiBD(this); // Se mueve aqí porque sino no tiene acceso a this
+        miDb = miBD.getMiBD(this); // Se mueve aquí porque sino no tiene acceso a this
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin   = findViewById(R.id.btnLogin);
@@ -34,9 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Comprobar si el usuario tiene la sesión iniciada para no tener que logearse
         SharedPreferences preferencias = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
-        int userId = preferencias.getInt("userId", -1);
+        int userId = preferencias.getInt("idDeUsuario", -1);
         if (userId != -1) {
-
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
