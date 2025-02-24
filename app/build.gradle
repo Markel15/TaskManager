@@ -37,6 +37,7 @@ dependencies {
     implementation libs.jbcrypt  // Para el cifrado de las contraseñas
     implementation libs.appcompat.v140 // Para el toolbar
     implementation libs.recyclerview
+    implementation libs.material.v190  // Para el botón flotante
     implementation libs.cardview
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
