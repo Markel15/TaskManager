@@ -1,6 +1,7 @@
 package com.example.proyecto;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -31,10 +32,26 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin   = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
 
+        // Comprobar si el usuario tiene la sesión iniciada para no tener que logearse
+        SharedPreferences preferencias = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+        int userId = preferencias.getInt("userId", -1);
+        if (userId != -1) {
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         btnLogin.setOnClickListener(v -> {
-            String username = etUsername.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-            if (loginUser(username, password)) {
+            String usuario = etUsername.getText().toString().trim();
+            String contraseña = etPassword.getText().toString().trim();
+            int usuId = loginUser(usuario, contraseña);
+            if (usuId!=-1) {
+                // Guardar el ID en SharedPreferences
+                SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+                prefs.edit().putInt("idDeUsuario", usuId).apply();
+
                 // Usuario autenticado: inicia MainActivity
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
@@ -51,20 +68,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean loginUser(String username, String password) {
+    private int loginUser(String username, String password) {
         SQLiteDatabase bd = miDb.getReadableDatabase();
         Cursor cursor = bd.rawQuery("SELECT * FROM usuarios WHERE username = ?", new String[]{username});
+        int usuId = -1;  // Valor por defecto en caso de fallo
         if (cursor.moveToFirst()) {
-            int columnIndex = cursor.getColumnIndex("password");
-            if (columnIndex != -1) {
+            int indexPassword = cursor.getColumnIndex("password");
+            if (indexPassword != -1) {
                 // Obtener el hash de la contraseña guardada
-                String hashGuardado = cursor.getString(columnIndex);
-                cursor.close();
-                bd.close();
-
-                // Verificar la contraseña con el hash guardado
+                String hashGuardado = cursor.getString(indexPassword);
                 if (BCrypt.checkpw(password, hashGuardado)) {
-                    return true;
+                    // Extraer el id del usuario
+                    int indexId = cursor.getColumnIndex("id");
+                    if (indexId != -1) {
+                        usuId = cursor.getInt(indexId);  // Obtener el id de usuario que ha iniciado sesión
+                    }
                 }
             } else {
                 Log.e("Database Error", "La columna 'password' no existe en la tabla 'usuarios'.");
@@ -72,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         cursor.close();
         bd.close();
-        return false;  // Credenciales incorrectas
+        return usuId;  // Credenciales incorrectas
     }
 
 }

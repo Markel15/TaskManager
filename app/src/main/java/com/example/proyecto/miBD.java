@@ -35,7 +35,7 @@ public class miBD extends SQLiteOpenHelper {
                 "completeado INTEGER DEFAULT 0, " +
                 "prioridad INTEGER DEFAULT 0," +
                 "usuarioId INTEGER NOT NULL," +
-                "FOREIGN KEY (id) REFERENCES usuarios(id) ON DELETE CASCADE"+
+                "FOREIGN KEY (usuarioId) REFERENCES usuarios(id) ON DELETE CASCADE"+
                 ");";
         String comando2 = "CREATE TABLE usuarios (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
