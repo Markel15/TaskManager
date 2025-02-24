@@ -9,4 +9,5 @@
     <string name="log_in">Log in</string>
     <string name="sign_in">Sign in</string>
     <string name="credenciales_incorrectas">Incorrect credentials</string>
+    <string name="agregar_tarea">Add task</string>
 </resources>
