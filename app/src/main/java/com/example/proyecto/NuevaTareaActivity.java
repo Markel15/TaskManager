@@ -1,6 +1,5 @@
 package com.example.proyecto;
 
-import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,21 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class NuevaTareaActivity extends AppCompatActivity {
+public class NuevaTareaActivity extends AppCompatActivity implements OnFechaSelectedListener {
     private EditText etTitulo, etDescripcion, etFechaFinalizacion;
     private Spinner spPrioridad;
     private Button btnGuardar;
     private miBD miDb;
-
-    private long fechaFinalSeleccionada = 0;
-
+    private long fechaFinalSeleccionada = 0; // fecha en milisegundos
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,28 +34,14 @@ public class NuevaTareaActivity extends AppCompatActivity {
         spPrioridad = findViewById(R.id.spPrioridad);
         btnGuardar = findViewById(R.id.btnGuardar);
 
-        etFechaFinalizacion.setFocusable(false);  // Para que no abra el teclado
+        // Configura el EditText para que lance el DialogFragment de fecha
+        etFechaFinalizacion.setFocusable(false);
         etFechaFinalizacion.setOnClickListener(v -> {
-            // Obtener la fecha actual
-            Calendar calendar = Calendar.getInstance();
-            int año = calendar.get(Calendar.YEAR);
-            int mes = calendar.get(Calendar.MONTH);
-            int dia = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    NuevaTareaActivity.this,
-                    (view, selectedYear, selectedMonth, selectedDay) -> {
-                        calendar.set(selectedYear, selectedMonth, selectedDay);
-                        fechaFinalSeleccionada = calendar.getTimeInMillis();
-
-                        // Formatear la fecha y mostrarla en el EditText
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                        etFechaFinalizacion.setText(sdf.format(calendar.getTime()));
-                    },
-                    año, mes, dia);
-            datePickerDialog.show();
+            ClaseDialogoFecha dialogoFecha = new ClaseDialogoFecha();
+            dialogoFecha.show(getSupportFragmentManager(), "datePicker");
         });
 
+        // Configura el Spinner con el array de prioridades
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.prioridad_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -69,27 +50,34 @@ public class NuevaTareaActivity extends AppCompatActivity {
         btnGuardar.setOnClickListener(v -> guardarTarea());
     }
 
+    @Override
+    public void onFechaSeleccionada(long fecha) {
+        fechaFinalSeleccionada = fecha;
+        // Formatea la fecha y la muestra en el EditText
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTimeInMillis(fecha);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        etFechaFinalizacion.setText(sdf.format(calendario.getTime()));
+    }
+
     private void guardarTarea() {
         String titulo = etTitulo.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
 
-        if(titulo.isEmpty()) {
+        if (titulo.isEmpty()) {
             Toast.makeText(this, "El título es obligatorio", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(fechaFinalSeleccionada == 0) {
+        if (fechaFinalSeleccionada == 0) {
             Toast.makeText(this, "Debes seleccionar una fecha final", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Obtener la prioridad según la posición seleccionada (0 = baja, 1 = media, 2 = alta)
         int prioridad = spPrioridad.getSelectedItemPosition();
-
-        // Recuperar el ID del usuario desde las SharedPreferences
         SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
         int userId = prefs.getInt("idDeUsuario", -1);
-        if(userId == -1) {
+        if (userId == -1) {
             Toast.makeText(this, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -104,7 +92,7 @@ public class NuevaTareaActivity extends AppCompatActivity {
         tarea.setPrioridad(prioridad);
         tarea.setCompletado(false);
 
-        // Insertar la nueva tarea en la base de datos
+        // Insertar la tarea en la base de datos
         SQLiteDatabase db = miDb.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("titulo", tarea.getTitulo());
@@ -118,12 +106,11 @@ public class NuevaTareaActivity extends AppCompatActivity {
         long newRowId = db.insert("tareas", null, values);
         db.close();
 
-        if(newRowId != -1) {
+        if (newRowId != -1) {
             Toast.makeText(this, "Tarea añadida", Toast.LENGTH_SHORT).show();
             finish(); // Regresa a la MainActivity
         } else {
             Toast.makeText(this, "Error al añadir la tarea", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
