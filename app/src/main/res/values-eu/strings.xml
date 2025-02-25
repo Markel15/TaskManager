@@ -10,4 +10,8 @@
     <string name="sign_in">Izena eman</string>
     <string name="credenciales_incorrectas">Datu okerrak</string>
     <string name="agregar_tarea">Gehitu zeregina</string>
+    <string name="agr_titulo">Zereginaren izenburua</string>
+    <string name="agr_descr">Deskribapena</string>
+    <string name="agr_fecha">Amaitzeko azken epea</string>
+    <string name="agr_button">Gorde zeregina</string>
 </resources>

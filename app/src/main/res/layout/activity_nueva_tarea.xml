@@ -9,21 +9,20 @@
 
     <EditText
         android:id="@+id/etTitulo"
-        android:layout_width="373dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="172dp"
-        android:hint="Título de la tarea"
+        android:layout_width="263dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="140dp"
+        android:hint="@string/agr_titulo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etDescripcion"
-        android:layout_width="371dp"
-        android:layout_height="46dp"
+        android:layout_width="261dp"
+        android:layout_height="61dp"
         android:layout_marginTop="16dp"
-        android:hint="Descripción"
+        android:hint="@string/agr_descr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etTitulo" />
@@ -31,10 +30,10 @@
     <!-- Cambiar a un DatePickerDialog más adelante -->
     <EditText
         android:id="@+id/etFechaFinalizacion"
-        android:layout_width="372dp"
-        android:layout_height="47dp"
+        android:layout_width="260dp"
+        android:layout_height="72dp"
         android:layout_marginTop="16dp"
-        android:hint="Fecha final (timestamp)"
+        android:hint="@string/agr_fecha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
@@ -54,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Guardar Tarea"
+        android:text="@string/agr_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

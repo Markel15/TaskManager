@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labarra" />
+        app:layout_constraintTop_toBottomOf="@id/labarra"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/boton_tarea"
@@ -37,6 +37,7 @@
         android:layout_marginTop="16dp"
         android:contentDescription="@string/agregar_tarea"
         android:src="@drawable/add_24px"
+        android:tint="@color/white"
         app:backgroundTint="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

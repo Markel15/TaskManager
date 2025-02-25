@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -46,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.labarra));
         // Configurar los elementos a mostrar
         RecyclerView lalista= findViewById(R.id.recyclerViewTareas);
+        lalista.setLayoutManager(new LinearLayoutManager(this));
         FloatingActionButton butn_nueva_tarea = findViewById(R.id.boton_tarea);
         butn_nueva_tarea.setOnClickListener(v -> {
-            // Lanza una actividad o muestra un diálogo para añadir una nueva tarea.
             Intent intent = new Intent(this, NuevaTareaActivity.class );
             startActivity(intent);
         });

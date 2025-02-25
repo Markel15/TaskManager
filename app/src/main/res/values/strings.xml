@@ -9,4 +9,8 @@
     <string name="sign_in">Registrarse</string>
     <string name="credenciales_incorrectas">Credenciales incorrectas</string>
     <string name="agregar_tarea">Agregar tarea</string>
+    <string name="agr_titulo">Título de la tarea</string>
+    <string name="agr_descr">Descripción</string>
+    <string name="agr_fecha">Fecha de finalización</string>
+    <string name="agr_button">Guardar tarea</string>
 </resources>

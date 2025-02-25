@@ -10,4 +10,8 @@
     <string name="sign_in">Sign in</string>
     <string name="credenciales_incorrectas">Incorrect credentials</string>
     <string name="agregar_tarea">Add task</string>
+    <string name="agr_titulo">Task title</string>
+    <string name="agr_descr">Description</string>
+    <string name="agr_fecha">Due date</string>
+    <string name="agr_button">Save task</string>
 </resources>
