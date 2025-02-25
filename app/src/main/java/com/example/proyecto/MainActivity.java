@@ -26,6 +26,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     miBD miDb;
+    List<Tarea> taskList;
+    TareaAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         // Obtener las tareas del usuario
-        List<Tarea> taskList = obtenerTarasParaUsu(userId);
+        taskList = obtenerTarasParaUsu(userId);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NuevaTareaActivity.class );
             startActivity(intent);
         });
-        TareaAdapter adapter = new TareaAdapter(taskList);
+        adapter = new TareaAdapter(taskList);
         lalista.setAdapter(adapter);
         Window window = getWindow();
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary)); // Usar el color de la Toolbar
@@ -62,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Al volver de la actividad de otra tarea (normalmente de añadir una nueva tarea) se ejecuta esto
+        SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+        int userId = prefs.getInt("idDeUsuario", -1);
+        taskList.clear();
+        taskList.addAll(obtenerTarasParaUsu(userId));
+        adapter.notifyDataSetChanged();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
