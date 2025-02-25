@@ -32,7 +32,7 @@ public class miBD extends SQLiteOpenHelper {
                 "descripcion TEXT, " +
                 "fechaCreacion INTEGER, " +
                 "FechaFinalizacion INTEGER, " +
-                "completeado INTEGER DEFAULT 0, " +
+                "completado INTEGER DEFAULT 0, " +
                 "prioridad INTEGER DEFAULT 0," +
                 "usuarioId INTEGER NOT NULL," +
                 "FOREIGN KEY (usuarioId) REFERENCES usuarios(id) ON DELETE CASCADE"+

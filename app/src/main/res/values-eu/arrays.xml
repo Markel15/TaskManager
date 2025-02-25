@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prioridad_array">
+        <item>Baxua</item>
+        <item>Ertaina</item>
+        <item>Altua</item>
+    </string-array>
+</resources>

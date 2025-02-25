@@ -27,6 +27,9 @@
         <activity android:name=".RegisterActivity">
 
         </activity>
+        <activity android:name=".NuevaTareaActivity">
+
+        </activity>
 
     </application>
 
