@@ -11,15 +11,21 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     miBD miDb;
     List<Tarea> taskList;
     TareaAdapter adapter;
+    DrawerLayout elMenuDesplegable;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,40 @@ public class MainActivity extends AppCompatActivity {
         });
         adapter = new TareaAdapter(this, taskList);
         lalista.setAdapter(adapter);
+
+        // Configurar el DrawerLayout y NavigationView
+        elMenuDesplegable = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.elnavigationview);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+           @Override
+           public boolean onNavigationItemSelected(@NonNull MenuItem item) {  // Hecho con if/ else if porque con case daba error al requerir que id sea una constante en ejecución
+               if (item.getItemId() == R.id.nav_proyectos) {
+
+               }
+               else if (item.getItemId() == R.id.nav_ajustes) {
+               }
+               else if (item.getItemId() == R.id.nav_logout) {
+               }
+               elMenuDesplegable.closeDrawers();
+               return false;
+           }
+        });
+
+        // Establecer el ícono de "hamburguesa" en la barra de acción
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu_24px);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Callback para que el botón Back cierre el Drawer si está abierto
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (elMenuDesplegable.isDrawerOpen(GravityCompat.START)) {
+                    elMenuDesplegable.closeDrawer(GravityCompat.START);
+                } else {
+                    finish();
+                }
+            }
+        });
         Window window = getWindow();
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary)); // Usar el color de la Toolbar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -83,8 +125,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.opcion1) {
-            // Acción para "Favorito"
+        if (item.getItemId() == android.R.id.home) {
+            elMenuDesplegable.openDrawer(GravityCompat.START);
+            return true;
+        }
+        if (item.getItemId() == R.id.opcion1) {
+            // Acción para alguna opción de la Toolbar
             return true;
         }
         return super.onOptionsItemSelected(item);

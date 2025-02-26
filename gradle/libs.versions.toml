@@ -3,6 +3,7 @@ agp = "8.8.0"
 androidDatabaseSqlcipher = "4.5.4"
 appcompatVersion = "1.4.0"
 cardview = "1.0.0"
+drawerlayout = "1.2.0"
 googleMaterial = "1.9.0"
 jbcrypt = "0.4"
 junit = "4.13.2"
@@ -13,12 +14,14 @@ material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 materialVersion = "1.7.0"
+navigationUi = "2.8.7"
 recyclerview = "1.4.0"
 
 [libraries]
 android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "androidDatabaseSqlcipher" }
 appcompat-v140 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+drawerlayout = { module = "androidx.drawerlayout:drawerlayout", version.ref = "drawerlayout" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -29,6 +32,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 material-v170 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 material-v190 = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
+navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationUi" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 
 [plugins]
