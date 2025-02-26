@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NuevaTareaActivity.class );
             startActivity(intent);
         });
-        adapter = new TareaAdapter(taskList);
+        adapter = new TareaAdapter(this, taskList);
         lalista.setAdapter(adapter);
         Window window = getWindow();
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary)); // Usar el color de la Toolbar
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     public List<Tarea> obtenerTarasParaUsu(int usuId) {
         List<Tarea> tareas = new ArrayList<>();
         SQLiteDatabase bd = miDb.getReadableDatabase();
-        Cursor cursor = bd.rawQuery("SELECT * FROM tareas WHERE usuarioId = ? ORDER BY FechaFinalizacion ASC",
+        Cursor cursor = bd.rawQuery("SELECT * FROM tareas WHERE usuarioId = ? AND completado = 0 ORDER BY FechaFinalizacion ASC",
                 new String[]{String.valueOf(usuId)});
         if (cursor.moveToFirst()) {
             do {
