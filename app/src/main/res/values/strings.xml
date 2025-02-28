@@ -13,4 +13,12 @@
     <string name="agr_descr">Descripción</string>
     <string name="agr_fecha">Fecha de finalización</string>
     <string name="agr_button">Guardar tarea</string>
+    <string name="titulo_required">El título es obligatorio</string>
+    <string name="fecha_required">Debes seleccionar una fecha final</string>
+    <string name="err_usu_noauth">Error: Usuario no autenticado</string>
+    <string name="tarea_añadida">Tarea añadida</string>
+    <string name="err_tarea_añadida">Error al añadir la tarea</string>
+    <string name="register_1">Por favor, completa todos los campos</string>
+    <string name="register_2">Registro exitoso, inicia sesión</string>
+    <string name="register_3">El usuario ya existe</string>
 </resources>

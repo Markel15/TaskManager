@@ -65,12 +65,12 @@ public class NuevaTareaActivity extends AppCompatActivity implements OnFechaSele
         String descripcion = etDescripcion.getText().toString().trim();
 
         if (titulo.isEmpty()) {
-            Toast.makeText(this, "El título es obligatorio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.titulo_required, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (fechaFinalSeleccionada == 0) {
-            Toast.makeText(this, "Debes seleccionar una fecha final", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.fecha_required, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -78,7 +78,7 @@ public class NuevaTareaActivity extends AppCompatActivity implements OnFechaSele
         SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
         int userId = prefs.getInt("idDeUsuario", -1);
         if (userId == -1) {
-            Toast.makeText(this, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.err_usu_noauth, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -107,10 +107,10 @@ public class NuevaTareaActivity extends AppCompatActivity implements OnFechaSele
         db.close();
 
         if (newRowId != -1) {
-            Toast.makeText(this, "Tarea añadida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.tarea_añadida, Toast.LENGTH_SHORT).show();
             finish(); // Regresa a la MainActivity
         } else {
-            Toast.makeText(this, "Error al añadir la tarea", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.err_tarea_añadida, Toast.LENGTH_SHORT).show();
         }
     }
 }

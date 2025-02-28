@@ -14,4 +14,12 @@
     <string name="agr_descr">Description</string>
     <string name="agr_fecha">Due date</string>
     <string name="agr_button">Save task</string>
+    <string name="titulo_required">The title is mandatory</string>
+    <string name="fecha_required">You must select an end date</string>
+    <string name="err_usu_noauth">Error: user not authenticated</string>
+    <string name="tarea_añadida">Task added</string>
+    <string name="err_tarea_añadida">Error adding the task</string>
+    <string name="register_1">Please complete all fields</string>
+    <string name="register_2">Successful sign up, log in</string>
+    <string name="register_3">The user already exists</string>
 </resources>

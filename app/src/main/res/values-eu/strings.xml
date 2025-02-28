@@ -14,4 +14,12 @@
     <string name="agr_descr">Deskribapena</string>
     <string name="agr_fecha">Amaitzeko azken epea</string>
     <string name="agr_button">Gorde zeregina</string>
+    <string name="titulo_required">Titulua ezinbestekoa da</string>
+    <string name="fecha_required">Ezinbestekoa da amaitzeko data aukeratzea</string>
+    <string name="err_usu_noauth">Errorea: erabiltzailea ez dago autentikatuta</string>
+    <string name="tarea_añadida">Zeregina gehitu da</string>
+    <string name="err_tarea_añadida">Errorea zeregina gehitzean</string>
+    <string name="register_1">Mesedez, bete eremu guztiak</string>
+    <string name="register_2">Erregistro arrakastatsua, saioa hasi</string>
+    <string name="register_3">Erabiltzailea existitzen da</string>
 </resources>

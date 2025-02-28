@@ -31,14 +31,14 @@ public class RegisterActivity extends AppCompatActivity {
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.register_1, Toast.LENGTH_SHORT).show();
                 return;
             }
             if (registerUser(username, password)) {
-                Toast.makeText(this, "Registro exitoso, inicia sesión", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.register_2, Toast.LENGTH_SHORT).show();
                 finish(); // Vuelve a LoginActivity
             } else {
-                Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.register_3, Toast.LENGTH_SHORT).show();
             }
         });
     }
