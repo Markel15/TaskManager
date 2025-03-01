@@ -24,4 +24,6 @@
     <string name="idioma">Idioma</string>
     <string name="modo_noche">Modo oscuro</string>
     <string name="Proyectos">Proyectos</string>
+    <string name="Editar">Editar</string>
+    <string name="Eliminar">Eliminar</string>
 </resources>

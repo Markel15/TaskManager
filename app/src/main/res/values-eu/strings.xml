@@ -25,4 +25,6 @@
     <string name="idioma">Hizkuntza</string>
     <string name="modo_noche">Ilun modua</string>
     <string name="Proyectos">Proiektuak</string>
+    <string name="Editar">Editatu</string>
+    <string name="Eliminar">Ezabatu</string>
 </resources>

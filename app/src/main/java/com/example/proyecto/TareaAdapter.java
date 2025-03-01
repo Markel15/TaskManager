@@ -4,8 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import android.widget.RadioButton;
@@ -49,6 +53,42 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             listaTareas.remove(pos);
             notifyItemRemoved(pos);
         });
+
+        holder.ivOpciones.setOnClickListener(v -> {
+            // Crear un PopupMenu asociado al view
+            PopupMenu popup = new PopupMenu(context, holder.ivOpciones);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.menu_tarea, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    int id = item.getItemId();
+                    if (id == R.id.opcion1) {
+                        // Acción para editar la tarea
+                        // Puedes lanzar una actividad de edición o mostrar un diálogo
+                        // Por ejemplo:
+                        // Intent intent = new Intent(context, EditTareaActivity.class);
+                        // intent.putExtra("tarea_id", tarea.getId());
+                        // context.startActivity(intent);
+                        return true;
+                    } else if (id == R.id.opcion2) {
+                        miBD dbHelper = miBD.getMiBD(context);
+                        SQLiteDatabase db = dbHelper.getWritableDatabase();
+                        int filasBorradas = db.delete("tareas", "id=?", new String[]{String.valueOf(tarea.getId())});
+                        db.close();
+                        if (filasBorradas > 0) {
+                            // Eliminar el elemento de la lista y notificar el cambio
+                            int pos = holder.getBindingAdapterPosition();
+                            listaTareas.remove(pos);
+                            notifyItemRemoved(pos);
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            popup.show();
+        });
     }
 
     @Override
@@ -60,11 +100,14 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
         TextView tvTitulo, tvDescripcion;
         RadioButton rbCompletado;
 
+        ImageView ivOpciones;
+
         public TareaViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitulo = itemView.findViewById(R.id.tvTitulo);
             tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
             rbCompletado = itemView.findViewById(R.id.rbCompletado);
+            ivOpciones = itemView.findViewById(R.id.ivOptions);
         }
     }
 }

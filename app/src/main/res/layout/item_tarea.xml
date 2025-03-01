@@ -45,5 +45,14 @@
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
+
+        <!-- Icono de 3 puntos para mostrar opciones -->
+        <ImageView
+            android:id="@+id/ivOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/Editar"
+            android:padding="8dp"
+            android:src="@drawable/more_vert_24px" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

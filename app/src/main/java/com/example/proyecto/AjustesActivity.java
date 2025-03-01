@@ -18,32 +18,31 @@ public class AjustesActivity extends BaseActivity {
 
     private Switch switchTema;
     private Spinner spinnerIdioma;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
 
         switchTema = findViewById(R.id.switchTema);
         spinnerIdioma = findViewById(R.id.spinnerIdioma);
 
-        // Configurar el switch según el modo actual
-        int currentMode = AppCompatDelegate.getDefaultNightMode();
-        switchTema.setChecked(currentMode == AppCompatDelegate.MODE_NIGHT_YES);
+        // Configura el switch según la preferencia cargada
+        checkNightModeActivated();
 
-        // Listener para cambiar el tema
         switchTema.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+                if(isChecked){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    saveNightModeState(true);
                 }
-                // Guardar la preferencia del modo
-                SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
-                prefs.edit().putInt("night_mode", isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO).apply();
-                recreate();  // Recrea la actividad para aplicar el cambio
+                else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    saveNightModeState(false);
+                }
             }
         });
 
@@ -56,7 +55,6 @@ public class AjustesActivity extends BaseActivity {
         spinnerIdioma.setAdapter(adapter);
 
         // Recuperar el idioma actual de las preferencias
-        SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
         String idiomaActual = prefs.getString("idioma", "es");
         int pos = 0;
         for (int i = 0; i < codigos.length; i++) {
@@ -79,6 +77,23 @@ public class AjustesActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
+    }
+
+    private void saveNightModeState(boolean b) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("modo_noche", b);
+        editor.apply();
+    }
+
+    public void checkNightModeActivated(){
+        if(prefs.getBoolean("modo_noche",false)){
+            switchTema.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else{
+            switchTema.setChecked(false);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     // Método para cambiar el idioma de la aplicación
