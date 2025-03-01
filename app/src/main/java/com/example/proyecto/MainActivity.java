@@ -76,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
                }
                else if (item.getItemId() == R.id.nav_ajustes) {
+                   Intent intent = new Intent(MainActivity.this, AjustesActivity.class);
+                   startActivity(intent);
+                   // No se usa finish() para poder volver al pulsar el botón de "atrás" del propio dispositivo
                }
                else if (item.getItemId() == R.id.nav_logout) {
                }
