@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private EditText etUsername, etPassword;  // editTexts
     private Button btnLogin, btnRegister;
 

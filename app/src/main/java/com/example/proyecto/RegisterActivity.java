@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
     private EditText etUsername, etPassword;
     private Button btnRegister;
     miBD miDb;

@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class NuevaTareaActivity extends AppCompatActivity implements OnFechaSelectedListener {
+public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedListener {
     private EditText etTitulo, etDescripcion, etFechaFinalizacion;
     private Spinner spPrioridad;
     private Button btnGuardar;

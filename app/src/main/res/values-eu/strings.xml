@@ -22,4 +22,7 @@
     <string name="register_1">Mesedez, bete eremu guztiak</string>
     <string name="register_2">Erregistro arrakastatsua, saioa hasi</string>
     <string name="register_3">Erabiltzailea existitzen da</string>
+    <string name="idioma">Hizkuntza</string>
+    <string name="modo_noche">Ilun modua</string>
+    <string name="Proyectos">Proiektuak</string>
 </resources>

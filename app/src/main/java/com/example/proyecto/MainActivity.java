@@ -30,7 +30,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     miBD miDb;
     List<Tarea> taskList;
     TareaAdapter adapter;

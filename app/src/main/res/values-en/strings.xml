@@ -22,4 +22,7 @@
     <string name="register_1">Please complete all fields</string>
     <string name="register_2">Successful sign up, log in</string>
     <string name="register_3">The user already exists</string>
+    <string name="idioma">Language</string>
+    <string name="modo_noche">Dark mode</string>
+    <string name="Proyectos">Projects</string>
 </resources>

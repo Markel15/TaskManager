@@ -21,4 +21,7 @@
     <string name="register_1">Por favor, completa todos los campos</string>
     <string name="register_2">Registro exitoso, inicia sesión</string>
     <string name="register_3">El usuario ya existe</string>
+    <string name="idioma">Idioma</string>
+    <string name="modo_noche">Modo oscuro</string>
+    <string name="Proyectos">Proyectos</string>
 </resources>
