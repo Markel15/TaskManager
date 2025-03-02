@@ -12,18 +12,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import android.widget.RadioButton;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHolder> {
     private List<Tarea> listaTareas;
     private Context context;
+    private OnAllTasksCompletedListener onAllTasksCompletedListener;
 
-    public TareaAdapter(Context context, List<Tarea> listaTareas) {
+    // Interface para notificar cuando ya no quedan tareas pendientes
+    public interface OnAllTasksCompletedListener {
+        void onAllTasksCompleted();
+    }
+
+    public TareaAdapter(Context context, List<Tarea> listaTareas, OnAllTasksCompletedListener listener) {
         this.listaTareas = listaTareas;
         this.context = context;
+        this.onAllTasksCompletedListener = listener;
     }
 
     @NonNull
@@ -56,10 +65,15 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             int pos = holder.getBindingAdapterPosition();
             listaTareas.remove(pos);
             notifyItemRemoved(pos);
+
+            // Si ya no quedan tareas, invocar el callback para disparar la notificación
+            if (listaTareas.isEmpty() && onAllTasksCompletedListener != null) {
+                onAllTasksCompletedListener.onAllTasksCompleted();
+            }
         });
 
+        // Opciones (editar, borrar, etc.)
         holder.ivOpciones.setOnClickListener(v -> {
-            // Crear un PopupMenu asociado al view
             PopupMenu popup = new PopupMenu(context, holder.ivOpciones);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.menu_tarea, popup.getMenu());
@@ -78,10 +92,13 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
                         int filasBorradas = db.delete("tareas", "id=?", new String[]{String.valueOf(tarea.getId())});
                         db.close();
                         if (filasBorradas > 0) {
-                            // Eliminar el elemento de la lista y notificar el cambio
                             int pos = holder.getBindingAdapterPosition();
                             listaTareas.remove(pos);
                             notifyItemRemoved(pos);
+                            // Comprobar si ya no quedan tareas pendientes
+                            if (listaTareas.isEmpty() && onAllTasksCompletedListener != null) {
+                                onAllTasksCompletedListener.onAllTasksCompleted();
+                            }
                         }
                         return true;
                     }
@@ -100,7 +117,6 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
     public static class TareaViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitulo, tvDescripcion;
         RadioButton rbCompletado;
-
         ImageView ivOpciones;
 
         public TareaViewHolder(@NonNull View itemView) {

@@ -34,4 +34,7 @@
     <string name="tarea_actualizada">Zereginaren informazioa berriztu da</string>
     <string name="err_tarea_actualizada">Ezin izan da zereginaren informazioa berriztu</string>
     <string name="Editar_tarea">EDITATU ZEREGINA</string>
+    <string name="noti_deneg">Notifikazioen baimena ukatuta</string>
+    <string name="felicidades">Zorionak!</string>
+    <string name="tareas_completadas">Zeregin guztiak egin dituzu.</string>
 </resources>

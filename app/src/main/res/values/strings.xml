@@ -33,4 +33,7 @@
     <string name="tarea_actualizada">Se han actualizado los datos de la tarea</string>
     <string name="err_tarea_actualizada">No se ha podido actualizar la tarea</string>
     <string name="Editar_tarea">EDITAR TAREA</string>
+    <string name="noti_deneg">Permiso de notificaciones denegado</string>
+    <string name="felicidades">¡Felicidades!</string>
+    <string name="tareas_completadas">Has completado todas tus tareas.</string>
 </resources>

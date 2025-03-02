@@ -1,21 +1,27 @@
 package com.example.proyecto;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
@@ -36,10 +42,18 @@ public class MainActivity extends BaseActivity {
     TareaAdapter adapter;
     DrawerLayout elMenuDesplegable;
     NavigationView navigationView;
+    int codigo = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // código del laboratorio 04 (números muertos) para solicitar permiso (necesario en las nuevas versiones de android)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, codigo);
+            }
+        }
+
         miDb = miBD.getMiBD(this);
         // Recuperar el ID del usuario autenticado
         SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
@@ -63,7 +77,12 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent(this, NuevaTareaActivity.class );
             startActivity(intent);
         });
-        adapter = new TareaAdapter(this, taskList);
+        adapter = new TareaAdapter(this, taskList, new TareaAdapter.OnAllTasksCompletedListener() {
+            @Override
+            public void onAllTasksCompleted() {
+                showCompleteNotification();
+            }
+        });
         lalista.setAdapter(adapter);
 
         // Configurar el DrawerLayout y NavigationView
@@ -160,6 +179,42 @@ public class MainActivity extends BaseActivity {
         cursor.close();
         return tareas;
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == codigo) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido: se puede notificar cuando sea necesario.
+            } else {
+                Toast.makeText(this, R.string.noti_deneg, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void showCompleteNotification() {
+        // Código adaptado de eGela diapositiva 20 tema 5 y laboratorio 4
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("complete_channel",
+                    "Complete Notifications", NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "complete_channel")
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle(getString(R.string.felicidades))
+                .setContentText(getString(R.string.tareas_completadas))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        notificationManager.notify(1, builder.build());
+    }
+
 
 
 }

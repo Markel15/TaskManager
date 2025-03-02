@@ -34,4 +34,7 @@
     <string name="tarea_actualizada">Task information updated</string>
     <string name="err_tarea_actualizada">Error updating task information</string>
     <string name="Editar_tarea">EDIT TASK</string>
+    <string name="noti_deneg">Notification permission denied</string>
+    <string name="felicidades">Congratulations!</string>
+    <string name="tareas_completadas">All tasks completed.</string>
 </resources>
