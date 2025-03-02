@@ -27,4 +27,11 @@
     <string name="Proyectos">Projects</string>
     <string name="Editar">Edit</string>
     <string name="Eliminar">Delete</string>
+    <string name="edit_titulo">Edit title</string>
+    <string name="edit_descr">Edit description</string>
+    <string name="edit_fecha">Edit date</string>
+    <string name="err_tarea_no_encontrada">Error finding the task</string>
+    <string name="tarea_actualizada">Task information updated</string>
+    <string name="err_tarea_actualizada">Error updating task information</string>
+    <string name="Editar_tarea">EDIT TASK</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.proyecto;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -64,12 +65,9 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
                 public boolean onMenuItemClick(MenuItem item) {
                     int id = item.getItemId();
                     if (id == R.id.opcion1) {
-                        // Acción para editar la tarea
-                        // Puedes lanzar una actividad de edición o mostrar un diálogo
-                        // Por ejemplo:
-                        // Intent intent = new Intent(context, EditTareaActivity.class);
-                        // intent.putExtra("tarea_id", tarea.getId());
-                        // context.startActivity(intent);
+                        Intent intent = new Intent(context, EditTareaActivity.class);
+                        intent.putExtra("tarea_id", tarea.getId());
+                        context.startActivity(intent);
                         return true;
                     } else if (id == R.id.opcion2) {
                         miBD dbHelper = miBD.getMiBD(context);

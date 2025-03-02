@@ -26,4 +26,11 @@
     <string name="Proyectos">Proyectos</string>
     <string name="Editar">Editar</string>
     <string name="Eliminar">Eliminar</string>
+    <string name="edit_titulo">Editar título</string>
+    <string name="edit_descr">Editar descripción</string>
+    <string name="edit_fecha">Editar fecha</string>
+    <string name="err_tarea_no_encontrada">Ha ocurrido un error, no se ha encontrado la tarea</string>
+    <string name="tarea_actualizada">Se han actualizado los datos de la tarea</string>
+    <string name="err_tarea_actualizada">No se ha podido actualizar la tarea</string>
+    <string name="Editar_tarea">EDITAR TAREA</string>
 </resources>
