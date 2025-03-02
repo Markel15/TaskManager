@@ -39,6 +39,9 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
         holder.tvTitulo.setText(tarea.getTitulo());
         holder.tvDescripcion.setText(tarea.getDescripcion());
 
+        // Actualiza el estado del RadioButton según si la tarea está completada o no
+        holder.rbCompletado.setChecked(tarea.isCompletado());
+
         // Configura el RadioButton para marcar la tarea como completada
         holder.rbCompletado.setOnClickListener(v -> {
             // Actualiza la base de datos: marca la tarea como completada
