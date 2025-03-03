@@ -116,14 +116,14 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
             Toast.makeText(this, R.string.tarea_añadida, Toast.LENGTH_SHORT).show();
             // Suponiendo que 'tarea' es el objeto que acabas de crear y guardado
             long fechaFinalizacion = tarea.getFechaFinalizacion();
-            scheduleDeadlineNotification(this, tarea.getId(), tarea.getTitulo(), fechaFinalizacion);
+            programarNotificacion(this, tarea.getId(), tarea.getTitulo(), fechaFinalizacion);
             finish(); // Regresa a la MainActivity
         } else {
             Toast.makeText(this, R.string.err_tarea_añadida, Toast.LENGTH_SHORT).show();
         }
     }
     // Programar la notificación que funciona aunque la aplicación no está activa
-    public void scheduleDeadlineNotification(Context context, int tareaId, String tareaTitulo, long fechaFinalizacion) {
+    public void programarNotificacion(Context context, int tareaId, String tareaTitulo, long fechaFinalizacion) {
         long oneDayInMillis = 24 * 60 * 60 * 1000;
         // Calculamos el momento de notificar: 24 horas antes de la fecha de finalización
         long fechaDisparo = fechaFinalizacion - oneDayInMillis;
@@ -161,7 +161,6 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
             else {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
             }
-
         }
     }
 
