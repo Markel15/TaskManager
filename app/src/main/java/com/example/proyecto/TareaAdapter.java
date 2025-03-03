@@ -63,7 +63,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             db.update("tareas", values, "id=?", new String[]{String.valueOf(tarea.getId())});
             db.close();
 
-            cancelarNotificacion(context, tarea.getId());
+            NotificacionAux.cancelarNotificacion(context, tarea.getId());
 
             // Elimina la tarea de la lista y notifica al adapter
             int pos = holder.getBindingAdapterPosition();
@@ -129,19 +129,6 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
             rbCompletado = itemView.findViewById(R.id.rbCompletado);
             ivOpciones = itemView.findViewById(R.id.ivOptions);
-        }
-    }
-    public void cancelarNotificacion(Context context, int taskId) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, DeadlineReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                taskId,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-        if (alarmManager != null) {
-            alarmManager.cancel(pendingIntent);
         }
     }
 }
