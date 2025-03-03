@@ -37,4 +37,7 @@
     <string name="noti_deneg">Notifikazioen baimena ukatuta</string>
     <string name="felicidades">Zorionak!</string>
     <string name="tareas_completadas">Zeregin guztiak egin dituzu.</string>
+    <string name="Atencion">Arreta!</string>
+    <string name="la_tarea">Zeregina</string>
+    <string name="vence_24">" 24 ordu baino gutxiagoan iraungitzen da. "</string>
 </resources>

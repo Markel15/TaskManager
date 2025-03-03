@@ -36,4 +36,7 @@
     <string name="noti_deneg">Permiso de notificaciones denegado</string>
     <string name="felicidades">¡Felicidades!</string>
     <string name="tareas_completadas">Has completado todas tus tareas.</string>
+    <string name="Atencion">¡Atención!</string>
+    <string name="la_tarea">La tarea</string>
+    <string name="vence_24">vence en menos de 24 horas.</string>
 </resources>

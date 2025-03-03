@@ -1,9 +1,15 @@
 package com.example.proyecto;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -108,9 +114,55 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
 
         if (newRowId != -1) {
             Toast.makeText(this, R.string.tarea_añadida, Toast.LENGTH_SHORT).show();
+            // Suponiendo que 'tarea' es el objeto que acabas de crear y guardado
+            long fechaFinalizacion = tarea.getFechaFinalizacion();
+            scheduleDeadlineNotification(this, tarea.getId(), tarea.getTitulo(), fechaFinalizacion);
             finish(); // Regresa a la MainActivity
         } else {
             Toast.makeText(this, R.string.err_tarea_añadida, Toast.LENGTH_SHORT).show();
         }
     }
+    // Programar la notificación que funciona aunque la aplicación no está activa
+    public void scheduleDeadlineNotification(Context context, int tareaId, String tareaTitulo, long fechaFinalizacion) {
+        long oneDayInMillis = 24 * 60 * 60 * 1000;
+        // Calculamos el momento de notificar: 24 horas antes de la fecha de finalización
+        long fechaDisparo = fechaFinalizacion - oneDayInMillis;
+        long now = System.currentTimeMillis();
+
+        // Si la fecha para disparar la notificacion ya pasó, por ejemplo, la tarea se crea con menos de 24h de antelación, esperamos 1 segundo para notificar
+        if (fechaDisparo < now) {
+            fechaDisparo = now + 1000;  // notifica en 1 segundo
+        }
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, DeadlineReceiver.class);
+        intent.putExtra("tareaId", tareaId);
+        intent.putExtra("tareaTitulo", tareaTitulo);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tareaId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        if (alarmManager != null) {
+            // Comprobación de permisos extraída de https://developer.android.com/about/versions/14/changes/schedule-exact-alarms?hl=es-419
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
+                    } else {
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
+                    }
+                } else {
+                    Intent intentAjustes = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                    startActivity(intentAjustes);
+                }
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
+            }
+            else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
+            }
+
+        }
+    }
+
 }

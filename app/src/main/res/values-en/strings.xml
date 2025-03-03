@@ -37,4 +37,7 @@
     <string name="noti_deneg">Notification permission denied</string>
     <string name="felicidades">Congratulations!</string>
     <string name="tareas_completadas">All tasks completed.</string>
+    <string name="Atencion">Attention!</string>
+    <string name="la_tarea">The task</string>
+    <string name="vence_24">"goes extinct in less than 24 hours. "</string>
 </resources>
