@@ -38,7 +38,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
     miBD miDb;
-    List<Tarea> taskList;
+    List<Tarea> listaTareas;
     TareaAdapter adapter;
     DrawerLayout elMenuDesplegable;
     NavigationView navigationView;
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
             finish();
         }
         // Obtener las tareas del usuario
-        taskList = obtenerTarasParaUsu(userId);
+        listaTareas = obtenerTarasParaUsu(userId);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent(this, NuevaTareaActivity.class );
             startActivity(intent);
         });
-        adapter = new TareaAdapter(this, taskList, new TareaAdapter.OnAllTasksCompletedListener() {
+        adapter = new TareaAdapter(this, listaTareas, new TareaAdapter.OnAllTasksCompletedListener() {
             @Override
             public void onAllTasksCompleted() {
                 showCompleteNotification();
@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item) {  // Hecho con if/ else if porque con case daba error al requerir que id sea una constante en ejecución
                if (item.getItemId() == R.id.nav_proyectos) {
-
+                    // De momento está vacío
                }
                else if (item.getItemId() == R.id.nav_ajustes) {
                    Intent intent = new Intent(MainActivity.this, AjustesActivity.class);
@@ -100,6 +100,21 @@ public class MainActivity extends BaseActivity {
                    // No se usa finish() para poder volver al pulsar el botón de "atrás" del propio dispositivo
                }
                else if (item.getItemId() == R.id.nav_logout) {
+                   //Eliminar id del usuario de las preferencias
+                   SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+                   SharedPreferences.Editor editor = prefs.edit();
+                   editor.remove("idDeUsuario");
+                   editor.apply();
+                   /*
+                   // Cancelar las notificaciones programadas
+                   for (Tarea tarea : listaTareas) {
+                       NotificacionAux.cancelarNotificacion(MainActivity.this, tarea.getId());
+                   }
+                   */
+                   // Redirigir a LoginActivity
+                   Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                   startActivity(intent);
+                   finish();
                }
                elMenuDesplegable.closeDrawers();
                return false;
@@ -135,8 +150,8 @@ public class MainActivity extends BaseActivity {
         // Al volver de la actividad de otra tarea (normalmente de añadir una nueva tarea) se ejecuta esto
         SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
         int userId = prefs.getInt("idDeUsuario", -1);
-        taskList.clear();
-        taskList.addAll(obtenerTarasParaUsu(userId));
+        listaTareas.clear();
+        listaTareas.addAll(obtenerTarasParaUsu(userId));
         adapter.notifyDataSetChanged();
     }
     @Override
