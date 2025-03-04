@@ -5,4 +5,5 @@
     <color name="colorPrimary">#F6AE2D</color>
     <color name="colorSecondary">#177E89</color>
     <color name="colorOnPrimary">#598381</color>
+    <color name="onSurface">#04030F</color>
 </resources>

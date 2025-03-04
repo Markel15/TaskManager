@@ -3,7 +3,7 @@
     <string name="app_name">TaskManager</string>
     <string name="Config">Configuration</string>
     <string name="sign_out">Sign out</string>
-    <string name="Log_Sign_in">Log in / Sign in</string>
+    <string name="Log_Sign_in">LOG IN / SIGN IN</string>
     <string name="user">User</string>
     <string name="pass">Password</string>
     <string name="log_in">Log in</string>

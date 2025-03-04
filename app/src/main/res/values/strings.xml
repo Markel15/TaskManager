@@ -2,7 +2,7 @@
     <string name="app_name">TaskManager</string>
     <string name="Config">Configuración</string>
     <string name="sign_out">Cerrar sesión</string>
-    <string name="Log_Sign_in">Iniciar Sesión / Registrarse</string>
+    <string name="Log_Sign_in">INICIAR SESIÓN / REGISTRARSE</string>
     <string name="user">Usuario</string>
     <string name="pass">Contraseña</string>
     <string name="log_in">Iniciar sesión</string>

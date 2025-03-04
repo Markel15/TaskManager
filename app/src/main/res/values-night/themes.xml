@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Proyecto" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Proyecto" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Colores de la Toolbar y demás componentes -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
