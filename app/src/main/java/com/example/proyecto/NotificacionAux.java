@@ -23,6 +23,7 @@ public class NotificacionAux {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DeadlineReceiver.class);
+        intent.setAction("avisoPersonalizado");
         intent.putExtra("tareaId", tareaId);
         intent.putExtra("tareaTitulo", tareaTitulo);
 
