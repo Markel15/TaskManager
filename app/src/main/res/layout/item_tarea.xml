@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -45,6 +46,16 @@
                 android:text="Descripción"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/tvFechaFinalizacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha finalización"
+                android:visibility="gone"
+                android:textColor="@color/colorLlamativo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDescripcion" />
         </LinearLayout>
 
         <!-- Icono de 3 puntos para mostrar opciones -->

@@ -15,11 +15,15 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.RadioButton;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHolder> {
     private List<Tarea> listaTareas;
@@ -52,6 +56,19 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
 
         // Actualiza el estado del RadioButton según si la tarea está completada o no
         holder.rbCompletado.setChecked(tarea.isCompletado());
+
+        // Mostrar la fecha de finalización si la preferencia está activada
+        SharedPreferences prefs = context.getSharedPreferences("MiAppPrefs", Context.MODE_PRIVATE);
+        boolean mostrarFecha = prefs.getBoolean("mostrar_fecha_finalizacion", false);
+        if (mostrarFecha) {
+            holder.tvFechaFinalizacion.setVisibility(View.VISIBLE);
+            // Formatear la fecha de finalización
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String fechaFormateada = sdf.format(new Date(tarea.getFechaFinalizacion()));
+            holder.tvFechaFinalizacion.setText(fechaFormateada);
+        } else {
+            holder.tvFechaFinalizacion.setVisibility(View.GONE);
+        }
 
         // Configura el RadioButton para marcar la tarea como completada
         holder.rbCompletado.setOnClickListener(v -> {
@@ -119,7 +136,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
     }
 
     public static class TareaViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitulo, tvDescripcion;
+        TextView tvTitulo, tvDescripcion, tvFechaFinalizacion;;
         RadioButton rbCompletado;
         ImageView ivOpciones;
 
@@ -129,6 +146,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
             rbCompletado = itemView.findViewById(R.id.rbCompletado);
             ivOpciones = itemView.findViewById(R.id.ivOptions);
+            tvFechaFinalizacion = itemView.findViewById(R.id.tvFechaFinalizacion);
         }
     }
 }

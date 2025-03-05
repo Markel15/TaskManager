@@ -42,4 +42,7 @@
     <string name="vence_24">" 24 ordu baino gutxiagoan iraungitzen da. "</string>
     <string name="selec_idioma">Hizkuntza hautatu</string>
     <string name="cancelar">Ezeztatu</string>
+    <string name="mostrar_fecha">Data erakutsi</string>
+    <string name="ocultar_fecha">Data ezkutatu</string>
+    <string name="config_fecha">Konfiguratu amaitzeko epea</string>
 </resources>

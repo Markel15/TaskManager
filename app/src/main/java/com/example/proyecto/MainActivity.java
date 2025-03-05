@@ -120,6 +120,9 @@ public class MainActivity extends BaseActivity {
                    startActivity(intent);
                    finish();
                }
+               else if (item.getItemId() == R.id.nav_fecha) {
+                   dialogoFecha();
+               }
                elMenuDesplegable.closeDrawers();
                return false;
            }
@@ -272,6 +275,27 @@ public class MainActivity extends BaseActivity {
         builder.setNegativeButton(R.string.cancelar, null);
         builder.show();
     }
+    private void dialogoFecha() {
+        SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+        boolean mostrarFecha = prefs.getBoolean("mostrar_fecha_finalizacion", false);
+        String[] opciones = {getString(R.string.mostrar_fecha),getString(R.string.ocultar_fecha) };
+        int indice = mostrarFecha ? 0 : 1;  // Si es true el indice es 0, sino 1
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(R.string.config_fecha);
+        builder.setSingleChoiceItems(opciones, indice, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                boolean opcion = (which == 0); // 0: mostrar, 1: ocultar
+                prefs.edit().putBoolean("mostrar_fecha_finalizacion", opcion).apply();
+                dialog.dismiss();
+                adapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton(R.string.cancelar, null);
+        builder.show();
+    }
+
 
 
 }

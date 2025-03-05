@@ -6,4 +6,5 @@
     <color name="colorSecondary">#177E89</color>
     <color name="colorOnPrimary">#598381</color>
     <color name="onSurface">#04030F</color>
+    <color name="colorLlamativo">#0A014F</color>
 </resources>

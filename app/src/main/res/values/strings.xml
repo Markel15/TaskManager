@@ -41,4 +41,7 @@
     <string name="vence_24">vence en menos de 24 horas.</string>
     <string name="selec_idioma">Selecciona el idioma</string>
     <string name="cancelar">Cancelar</string>
+    <string name="mostrar_fecha">Mostrar fecha</string>
+    <string name="ocultar_fecha">Ocultar fecha</string>
+    <string name="config_fecha">Configurar fecha de finalización</string>
 </resources>

@@ -42,4 +42,7 @@
     <string name="vence_24">"goes extinct in less than 24 hours. "</string>
     <string name="selec_idioma">Select language</string>
     <string name="cancelar">Cancel</string>
+    <string name="mostrar_fecha">Show date</string>
+    <string name="ocultar_fecha">Hide date</string>
+    <string name="config_fecha">Configurate due date</string>
 </resources>
