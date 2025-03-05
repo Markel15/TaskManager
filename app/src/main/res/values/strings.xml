@@ -44,4 +44,6 @@
     <string name="mostrar_fecha">Mostrar fecha</string>
     <string name="ocultar_fecha">Ocultar fecha</string>
     <string name="config_fecha">Configurar fecha de finalización</string>
+    <string name="search">Buscar</string>
+    <string name="buscar_tareas">Buscar tareas...</string>
 </resources>

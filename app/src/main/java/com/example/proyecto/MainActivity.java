@@ -15,7 +15,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -45,6 +47,7 @@ public class MainActivity extends BaseActivity {
     miBD miDb;
     List<Tarea> listaTareas;
     TareaAdapter adapter;
+    private List<Tarea> filtroLista;  // Variable de apoyo que es una copia de la original para poder filtrar tareas
     DrawerLayout elMenuDesplegable;
     NavigationView navigationView;
     int codigo = 101;
@@ -70,6 +73,7 @@ public class MainActivity extends BaseActivity {
         }
         // Obtener las tareas del usuario
         listaTareas = obtenerTarasParaUsu(userId);
+        filtroLista = new ArrayList<>(listaTareas);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -93,6 +97,18 @@ public class MainActivity extends BaseActivity {
         // Configurar el DrawerLayout y NavigationView
         elMenuDesplegable = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.elnavigationview);
+        if (userId != -1) {
+            String username = obtenerNombreUsuario(userId);
+
+            // Actualizar el TextView en la cabecera
+            View headerView = navigationView.getHeaderView(0);
+            TextView tvUsername = headerView.findViewById(R.id.tvUsername);
+            if (username != null) {
+                tvUsername.setText(username);
+            } else {
+                tvUsername.setText(R.string.err_usu_noauth);
+            }
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item) {  // Hecho con if/ else if porque con case daba error al requerir que id sea una constante en ejecución
@@ -159,12 +175,44 @@ public class MainActivity extends BaseActivity {
         int userId = prefs.getInt("idDeUsuario", -1);
         listaTareas.clear();
         listaTareas.addAll(obtenerTarasParaUsu(userId));
+        filtroLista = new ArrayList<>(listaTareas);
         adapter.notifyDataSetChanged();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.definicion_menu,menu);
+        // Obtener el ítem de búsqueda y configurar su SearchView
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) searchItem.getActionView();
+        searchView.setQueryHint(getString(R.string.buscar_tareas));
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filtrarTareas(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filtrarTareas(newText);
+                return true;
+            }
+        });
         return true;
+    }
+    // Método que filtra las tareas según el query
+    private void filtrarTareas(String query) {
+        query = query.toLowerCase().trim();
+        listaTareas.clear();
+        if (query.isEmpty()) { // Si no se ha escrito nada no aplica filtro, devuelve la lista original
+            listaTareas.addAll(filtroLista);
+        } else {
+            for (Tarea tarea : filtroLista) {
+                if (tarea.getTitulo().toLowerCase().contains(query) || tarea.getDescripcion().toLowerCase().contains(query)) {
+                    listaTareas.add(tarea);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -295,6 +343,20 @@ public class MainActivity extends BaseActivity {
         builder.setNegativeButton(R.string.cancelar, null);
         builder.show();
     }
+    @SuppressLint("Range") // Omitir advertencias sobre el uso de columnas que no existan
+    public String obtenerNombreUsuario(int userId) {
+        SQLiteDatabase db = miDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT username FROM usuarios WHERE id = ?", new String[]{String.valueOf(userId)});
+
+        String username = null;
+        if (cursor.moveToFirst()) {
+            username = cursor.getString(cursor.getColumnIndex("username"));
+        }
+        cursor.close();
+
+        return username;
+    }
+
 
 
 

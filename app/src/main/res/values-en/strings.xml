@@ -45,4 +45,6 @@
     <string name="mostrar_fecha">Show date</string>
     <string name="ocultar_fecha">Hide date</string>
     <string name="config_fecha">Configurate due date</string>
+    <string name="search">Search</string>
+    <string name="buscar_tareas">Search tasks...</string>
 </resources>

@@ -45,4 +45,6 @@
     <string name="mostrar_fecha">Data erakutsi</string>
     <string name="ocultar_fecha">Data ezkutatu</string>
     <string name="config_fecha">Konfiguratu amaitzeko epea</string>
+    <string name="search">Bilatu</string>
+    <string name="buscar_tareas">Bilatu zereginak...</string>
 </resources>
