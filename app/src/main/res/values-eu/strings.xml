@@ -40,4 +40,6 @@
     <string name="Atencion">Arreta!</string>
     <string name="la_tarea">Zeregina</string>
     <string name="vence_24">" 24 ordu baino gutxiagoan iraungitzen da. "</string>
+    <string name="selec_idioma">Hizkuntza hautatu</string>
+    <string name="cancelar">Ezeztatu</string>
 </resources>

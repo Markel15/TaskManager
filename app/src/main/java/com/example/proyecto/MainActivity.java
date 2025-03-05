@@ -3,9 +3,12 @@ package com.example.proyecto;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -35,6 +39,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends BaseActivity {
     miBD miDb;
@@ -91,14 +96,13 @@ public class MainActivity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item) {  // Hecho con if/ else if porque con case daba error al requerir que id sea una constante en ejecución
-               if (item.getItemId() == R.id.nav_proyectos) {
-                    // De momento está vacío
+               if (item.getItemId() == R.id.nav_idioma) {
+                   dialogoIdioma();
                }
-               else if (item.getItemId() == R.id.nav_ajustes) {
-                   Intent intent = new Intent(MainActivity.this, AjustesActivity.class);
-                   startActivity(intent);
-                   // No se usa finish() para poder volver al pulsar el botón de "atrás" del propio dispositivo
-               }
+               /* De momento deshabilitado
+               else if (item.getItemId() == R.id.nav_proyectos) {
+                   // De momento está vacío
+               }*/
                else if (item.getItemId() == R.id.nav_logout) {
                    //Eliminar id del usuario de las preferencias
                    SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
@@ -230,6 +234,44 @@ public class MainActivity extends BaseActivity {
         notificationManager.notify(1, builder.build());
     }
 
+    private void dialogoIdioma() {
+        SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+        String[] idiomas = {"Español", "English", "Euskara"};
+        final String[] codigos = {"es", "en", "eu"};
+
+        // Recuperar el idioma actual
+        String idiomaActual = prefs.getString("idioma", "es");
+        int selectedIndex = 0;
+        for (int i = 0; i < codigos.length; i++) {
+            if (codigos[i].equals(idiomaActual)) {
+                selectedIndex = i;
+                break;
+            }
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(R.string.selec_idioma);
+        builder.setSingleChoiceItems(idiomas, selectedIndex, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String idiomaSeleccionado = codigos[which];
+                if (!idiomaSeleccionado.equals(idiomaActual)) {
+                    SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+                    prefs.edit().putString("idioma", idiomaSeleccionado).apply();
+
+                    // Limpiar flags
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                    // Gesion de Locale ya se hace en Base activity al reiniciar la actividad
+                }
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.cancelar, null);
+        builder.show();
+    }
 
 
 }

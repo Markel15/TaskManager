@@ -32,7 +32,6 @@
         <activity android:name=".NuevaTareaActivity">
 
         </activity>
-        <activity android:name=".AjustesActivity" />
         <activity android:name=".EditTareaActivity" />
         <receiver android:name=".DeadlineReceiver" />
     </application>

@@ -39,4 +39,6 @@
     <string name="Atencion">¡Atención!</string>
     <string name="la_tarea">La tarea</string>
     <string name="vence_24">vence en menos de 24 horas.</string>
+    <string name="selec_idioma">Selecciona el idioma</string>
+    <string name="cancelar">Cancelar</string>
 </resources>
