@@ -35,6 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Título de la tarea"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/onSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -44,6 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Descripción"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"/>
 
