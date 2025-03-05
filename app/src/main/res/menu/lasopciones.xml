@@ -12,8 +12,12 @@
         android:title="@string/idioma" />
     <item
         android:id="@+id/nav_fecha"
-        android:icon="@drawable/calendar_month_24px"
+        android:icon="@drawable/preview_24px"
         android:title="@string/mostrar_fecha" />
+    <item
+        android:id="@+id/nav_calendario"
+        android:icon="@drawable/calendar_month_24px"
+        android:title="Calendario" />
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/logout_24px"

@@ -3,12 +3,10 @@ package com.example.proyecto;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -41,7 +39,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends BaseActivity {
     miBD miDb;
@@ -138,6 +135,10 @@ public class MainActivity extends BaseActivity {
                }
                else if (item.getItemId() == R.id.nav_fecha) {
                    dialogoFecha();
+               }
+               else if (item.getItemId() == R.id.nav_calendario) {
+                   Intent intent = new Intent(MainActivity.this, CalendarioActivity.class);
+                   startActivity(intent);
                }
                elMenuDesplegable.closeDrawers();
                return false;

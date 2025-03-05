@@ -47,4 +47,5 @@
     <string name="config_fecha">Konfiguratu amaitzeko epea</string>
     <string name="search">Bilatu</string>
     <string name="buscar_tareas">Bilatu zereginak...</string>
+    <string name="err_sin_tareas">Ez dago egiteko zereginik egun horretan</string>
 </resources>

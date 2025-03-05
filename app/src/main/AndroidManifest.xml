@@ -33,6 +33,7 @@
 
         </activity>
         <activity android:name=".EditTareaActivity" />
+        <activity android:name=".CalendarioActivity" />
         <receiver android:name=".DeadlineReceiver" />
     </application>
 

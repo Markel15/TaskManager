@@ -47,4 +47,5 @@
     <string name="config_fecha">Configurate due date</string>
     <string name="search">Search</string>
     <string name="buscar_tareas">Search tasks...</string>
+    <string name="err_sin_tareas">No tasks are due to that day</string>
 </resources>
