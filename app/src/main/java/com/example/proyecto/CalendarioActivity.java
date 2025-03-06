@@ -31,14 +31,10 @@ public class CalendarioActivity extends BaseActivity implements CalendarFragment
             return;
         }
 
-        // Cargar ambos fragmentos
+        // Cargar los fragments
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container_calendar, new CalendarFragment())
-                    .commitNow();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container_tasks, ListaTareasFragment.newInstance(userId))
-                    .commitNow();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container_calendar, new CalendarFragment()).commitNow();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container_tasks, ListaTareasFragment.newInstance(userId)).commitNow();
         }
     }
 

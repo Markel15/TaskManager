@@ -60,7 +60,7 @@ public class ListaTareasFragment extends Fragment {
         tvVacio = view.findViewById(R.id.tvVacio);
 
         viewCreada = true;
-        // Si había una actualización pendiente, ejecútala
+        // Si había una actualización pendiente, se ejecuta
         if (pendingComienzoDia != null && pendingFinDia != null) {
             actualizarTareas(pendingComienzoDia, pendingFinDia);
             pendingComienzoDia = null;

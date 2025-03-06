@@ -23,13 +23,14 @@ public class CalendarFragment extends Fragment {
 
     private OnDateSelectedListener listener;
 
+    // Ejemplo adaptado de eGela Tema 7 fragments diapositiva 14
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnDateSelectedListener) {
+        try{
             listener = (OnDateSelectedListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " debe implementar OnDateSelectedListener");
+        } catch (ClassCastException e){
+            throw new ClassCastException("La clase " +context.toString() + "debe implementar OnDateSelectedListener");
         }
     }
 
