@@ -222,10 +222,6 @@ public class MainActivity extends BaseActivity {
             elMenuDesplegable.openDrawer(GravityCompat.START);
             return true;
         }
-        if (item.getItemId() == R.id.opcion1) {
-            // Acción para alguna opción de la Toolbar
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
     @SuppressLint("Range")  // Omitir los warnings en los que las columnas no existan, la base de datos se va a crear con esos nombres
