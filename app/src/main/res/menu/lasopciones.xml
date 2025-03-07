@@ -17,7 +17,7 @@
     <item
         android:id="@+id/nav_calendario"
         android:icon="@drawable/calendar_month_24px"
-        android:title="Calendario" />
+        android:title="@string/Calendario" />
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/logout_24px"

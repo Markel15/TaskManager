@@ -113,8 +113,9 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
         db.close();
 
         if (newRowId != -1) {
+            // Asignar el ID generado al objeto Tarea
+            tarea.setId((int)newRowId);
             Toast.makeText(this, R.string.tarea_añadida, Toast.LENGTH_SHORT).show();
-            // Suponiendo que 'tarea' es el objeto que acabas de crear y guardado
             long fechaFinalizacion = tarea.getFechaFinalizacion();
             NotificacionAux.programarNotificacion(this, tarea.getId(), tarea.getTitulo(), fechaFinalizacion);
             finish(); // Regresa a la MainActivity

@@ -112,6 +112,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
                         SQLiteDatabase db = dbHelper.getWritableDatabase();
                         int filasBorradas = db.delete("tareas", "id=?", new String[]{String.valueOf(tarea.getId())});
                         db.close();
+                        NotificacionAux.cancelarNotificacion(context, tarea.getId());
                         if (filasBorradas > 0) {
                             int pos = holder.getBindingAdapterPosition();
                             listaTareas.remove(pos);

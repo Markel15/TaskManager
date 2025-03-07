@@ -122,12 +122,10 @@ public class MainActivity extends BaseActivity {
                    SharedPreferences.Editor editor = prefs.edit();
                    editor.remove("idDeUsuario");
                    editor.apply();
-                   /*
-                   // Cancelar las notificaciones programadas
+                   // Cancelar las notificaciones programadas del usuario
                    for (Tarea tarea : listaTareas) {
                        NotificacionAux.cancelarNotificacion(MainActivity.this, tarea.getId());
                    }
-                   */
                    // Redirigir a LoginActivity
                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                    startActivity(intent);
