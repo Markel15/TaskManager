@@ -11,9 +11,9 @@ import android.provider.Settings;
 public class NotificacionAux {
 
     public static void programarNotificacion(Context context, int tareaId, String tareaTitulo, long fechaFinalizacion) {
-        long oneMinuteInMillis = 60 * 1000; // 1 minuto en milisegundos
-        // Calculamos el momento de notificar: 1 minuto después del momento actual
-        long fechaDisparo = System.currentTimeMillis() + oneMinuteInMillis;
+        long oneDayInMillis = 24 * 60 * 60 * 1000;
+        // Calculamos el momento de notificar: 24 horas antes de la fecha de finalización
+        long fechaDisparo = fechaFinalizacion - oneDayInMillis;
         long now = System.currentTimeMillis();
 
         // Si la fecha para disparar la notificación ya pasó, esperamos 1 segundo para notificar
