@@ -27,7 +27,7 @@ public class NotificacionAux {
         intent.putExtra("tareaId", tareaId);
         intent.putExtra("tareaTitulo", tareaTitulo);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tareaId, intent, PendingIntent.FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tareaId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         if (alarmManager != null) {
             // Comprobación de permisos extraída de https://developer.android.com/about/versions/14/changes/schedule-exact-alarms?hl=es-419
@@ -59,7 +59,7 @@ public class NotificacionAux {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DeadlineReceiver.class);
         intent.setAction("avisoPersonalizado");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tareaId, intent, PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tareaId, intent, PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE);
         if (pendingIntent != null && alarmManager != null) {
             alarmManager.cancel(pendingIntent);
         }
