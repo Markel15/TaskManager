@@ -33,20 +33,13 @@ public class NotificacionAux {
             // Comprobación de permisos extraída de https://developer.android.com/about/versions/14/changes/schedule-exact-alarms?hl=es-419
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 if (alarmManager.canScheduleExactAlarms()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
-                    } else {
-                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
-                    }
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
                 } else {
                     if (context instanceof Activity) {
                         Intent intentAjustes = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                         ((Activity) context).startActivity(intentAjustes);
                     }
                 }
-            }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
             }
             else {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, fechaDisparo, pendingIntent);
