@@ -115,8 +115,13 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
                         NotificacionAux.cancelarNotificacion(context, tarea.getId());
                         if (filasBorradas > 0) {
                             int pos = holder.getBindingAdapterPosition();
+                            Tarea tareaEliminada = listaTareas.get(pos);
                             listaTareas.remove(pos);
                             notifyItemRemoved(pos);
+                            // Limpiar lista de la actividad principal para que no haya incongruencias de código
+                            if (context instanceof MainActivity) {
+                                ((MainActivity) context).eliminarTareaDeLista(tareaEliminada);
+                            }
                             // Comprobar si ya no quedan tareas pendientes
                             if (listaTareas.isEmpty() && onAllTasksCompletedListener != null) {
                                 onAllTasksCompletedListener.onAllTasksCompleted();

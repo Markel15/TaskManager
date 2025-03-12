@@ -351,8 +351,9 @@ public class MainActivity extends BaseActivity {
 
         return username;
     }
-
-
-
+    public void eliminarTareaDeLista(Tarea tarea) {
+        listaTareas.remove(tarea);
+        filtroLista.remove(tarea);
+    }
 
 }
