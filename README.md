@@ -32,3 +32,10 @@ Para clonar y ejecutar la aplicación en **Android Studio**, sigue estos pasos:
 1. Clonar el repositorio:
    ```bash
    git clone https://github.com/Markel15/TaskManager.git
+   ```
+2. Abrir el proyecto en Android Studio.
+3. Asegurarse de tener instalados los SDKs adecuados (Mínimo SDK 24, Target SDK 35).
+4. Sincronizar las dependencias del proyecto con:
+  ```bash
+   gradle sync
+   ```
