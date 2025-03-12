@@ -48,4 +48,5 @@
     <string name="buscar_tareas">Buscar tareas...</string>
     <string name="err_sin_tareas">No hay tareas asignadas a ese dia</string>
     <string name="Calendario">Calendario</string>
+    <string name="Añadir_nueva_ta">AÑADIR NUEVA TAREA</string>
 </resources>

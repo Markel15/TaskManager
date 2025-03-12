@@ -49,4 +49,5 @@
     <string name="buscar_tareas">Search tasks...</string>
     <string name="err_sin_tareas">No tasks are due to that day</string>
     <string name="Calendario">Calendar</string>
+    <string name="Añadir_nueva_ta">ADD NEW TASK</string>
 </resources>
