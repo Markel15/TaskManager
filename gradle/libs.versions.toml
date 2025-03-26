@@ -15,6 +15,7 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 materialVersion = "1.7.0"
 navigationUi = "2.8.7"
+osmdroidAndroid = "6.1.16"
 recyclerview = "1.4.0"
 
 [libraries]
@@ -33,6 +34,10 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 material-v170 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 material-v190 = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
 navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationUi" }
+osmdroid-android = { module = "org.osmdroid:osmdroid-android", version.ref = "osmdroidAndroid" }
+osmdroid-geopackage = { module = "org.osmdroid:osmdroid-geopackage", version.ref = "osmdroidAndroid" }
+osmdroid-mapsforge = { module = "org.osmdroid:osmdroid-mapsforge", version.ref = "osmdroidAndroid" }
+osmdroid-wms = { module = "org.osmdroid:osmdroid-wms", version.ref = "osmdroidAndroid" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 
 [plugins]
