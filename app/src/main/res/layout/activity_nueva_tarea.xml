@@ -53,6 +53,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
 
+    <EditText
+        android:id="@+id/etCoordenadas"
+        android:layout_width="260dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/Ubicación"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etFechaFinalizacion" />
+
     <Spinner
         android:id="@+id/spPrioridad"
         android:layout_width="168dp"
@@ -61,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etFechaFinalizacion" />
+        app:layout_constraintTop_toBottomOf="@id/etCoordenadas" />
 
     <Button
         android:id="@+id/btnGuardar"

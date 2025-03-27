@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class EditTareaActivity extends BaseActivity implements OnFechaSelectedListener {
-    private EditText etTitulo, etDescripcion, etFechaFinalizacion;
+    private EditText etTitulo, etDescripcion, etFechaFinalizacion, etCoordenadas;
     private Spinner spPrioridad;
     private Button btnGuardar;
     private miBD miDb;
@@ -60,6 +60,14 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
         etFechaFinalizacion.setOnClickListener(v -> {
             ClaseDialogoFecha dialogoFecha = new ClaseDialogoFecha();
             dialogoFecha.show(getSupportFragmentManager(), "datePicker");
+        });
+
+        // Configura el editText con las coordenadas para abrir al actividad del mapa y obtener el valor
+        etCoordenadas = findViewById(R.id.etCoordenadas);
+        etCoordenadas.setFocusable(false);
+        etCoordenadas.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UbicacionActivity.class);
+            startActivity(intent);
         });
 
         // Configurar el Spinner con el array de prioridades

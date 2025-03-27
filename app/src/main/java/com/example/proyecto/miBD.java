@@ -35,6 +35,7 @@ public class miBD extends SQLiteOpenHelper {
                 "completado INTEGER DEFAULT 0, " +
                 "prioridad INTEGER DEFAULT 0," +
                 "usuarioId INTEGER NOT NULL," +
+                "localizacion TEXT, " +
                 "FOREIGN KEY (usuarioId) REFERENCES usuarios(id) ON DELETE CASCADE"+
                 ");";
         String comando2 = "CREATE TABLE usuarios (" +
@@ -48,7 +49,12 @@ public class miBD extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS tareas");
-        onCreate(db);
+        if (oldVersion < 2) { //Añadir el nuevo campo en caso de actualización de la aplicación
+            db.execSQL("ALTER TABLE tareas ADD COLUMN localizacion TEXT;");
+        }
+        else {
+            db.execSQL("DROP TABLE IF EXISTS tareas");
+            onCreate(db);
+        }
     }
 }
