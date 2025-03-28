@@ -67,6 +67,15 @@ public class UbicacionActivity extends AppCompatActivity {
         // Refrescar el mapa
         map.invalidate();
 
+        // Si se han recibido coordenadas, simula un toque para colocar el marcador inicial
+        if (getIntent().hasExtra("latitud") && getIntent().hasExtra("longitud")) {
+            double lat = getIntent().getDoubleExtra("latitud", 0);
+            double lon = getIntent().getDoubleExtra("longitud", 0);
+            GeoPoint initialPoint = new GeoPoint(lat, lon);
+            // Simulamos el tap para que el receptor coloque el marcador
+            touchReceiver.singleTapConfirmedHelper(initialPoint);
+        }
+
         // Configurar el botón flotante para confirmar la selección
         FloatingActionButton fabConfirmar = findViewById(R.id.fabConfirmar);
         fabConfirmar.setOnClickListener(v -> {

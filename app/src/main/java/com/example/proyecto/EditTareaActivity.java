@@ -70,6 +70,20 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
         etCoordenadas.setFocusable(false);
         etCoordenadas.setOnClickListener(v -> {
             Intent intent = new Intent(this, UbicacionActivity.class);
+            if (coordenadas != null && !coordenadas.isEmpty()) {
+                // Se espera que coordenadas tenga el formato "lat , lon"
+                String[] parts = coordenadas.split(",");
+                if (parts.length == 2) {
+                    try {
+                        double lat = Double.parseDouble(parts[0].trim());
+                        double lon = Double.parseDouble(parts[1].trim());
+                        intent.putExtra("latitud", lat);
+                        intent.putExtra("longitud", lon);
+                    } catch (NumberFormatException e) {
+                        // Si ocurre un error, no se pasan las coordenadas.
+                    }
+                }
+            }
             startActivityForResult(intent, REQUEST_UBICACION);
         });
 
