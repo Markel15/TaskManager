@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class EditTareaActivity extends BaseActivity implements OnFechaSelectedListener {
+    private static final int REQUEST_UBICACION = 1001;
     private EditText etTitulo, etDescripcion, etFechaFinalizacion, etCoordenadas;
     private Spinner spPrioridad;
     private Button btnGuardar;
@@ -30,6 +31,8 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
     private long fechaFinalSeleccionada = 0;
     private int tareaId;
     private long fechaCreacion;
+
+    private String coordenadas = "0 , 0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
         etFechaFinalizacion = findViewById(R.id.etFechaFinalizacion);
         spPrioridad = findViewById(R.id.spPrioridad);
         btnGuardar = findViewById(R.id.btnGuardar);
+        etCoordenadas = findViewById(R.id.etCoordenadas);
 
         // Recuperar el id de la tarea desde los extras
         tareaId = getIntent().getIntExtra("tarea_id", -1);
@@ -63,11 +67,10 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
         });
 
         // Configura el editText con las coordenadas para abrir al actividad del mapa y obtener el valor
-        etCoordenadas = findViewById(R.id.etCoordenadas);
         etCoordenadas.setFocusable(false);
         etCoordenadas.setOnClickListener(v -> {
             Intent intent = new Intent(this, UbicacionActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_UBICACION);
         });
 
         // Configurar el Spinner con el array de prioridades
@@ -90,6 +93,7 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
             fechaCreacion = cursor.getLong(cursor.getColumnIndex("fechaCreacion"));
             long fechaFinal = cursor.getLong(cursor.getColumnIndex("FechaFinalizacion"));
             int prioridad = cursor.getInt(cursor.getColumnIndex("prioridad"));
+            coordenadas = cursor.getString(cursor.getColumnIndex("localizacion"));
             // Rellenar los campos
             etTitulo.setText(titulo);
             etDescripcion.setText(descripcion);
@@ -100,6 +104,7 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             etFechaFinalizacion.setText(sdf.format(calendario.getTime()));
             spPrioridad.setSelection(prioridad);
+            etCoordenadas.setText(coordenadas);
         } else {
             Toast.makeText(this, R.string.err_tarea_no_encontrada, Toast.LENGTH_SHORT).show();
             finish();
@@ -121,6 +126,7 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
     private void updateTask() {
         String titulo = etTitulo.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
+        String coordenadas = etCoordenadas.getText().toString().trim();
 
         if (titulo.isEmpty()) {
             Toast.makeText(this, R.string.titulo_required, Toast.LENGTH_SHORT).show();
@@ -150,6 +156,7 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
         values.put("FechaFinalizacion", fechaFinalSeleccionada);
         values.put("prioridad", prioridad);
         values.put("usuarioId", userId);
+        values.put("localizacion", coordenadas);
 
         int rowsUpdated = db.update("tareas", values, "id=?", new String[]{String.valueOf(tareaId)});
         db.close();
@@ -163,6 +170,17 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
             finish(); // Regresa a la actividad anterior (MainActivity)
         } else {
             Toast.makeText(this, R.string.err_tarea_actualizada, Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_UBICACION && resultCode == RESULT_OK) {
+            // UbicacionActivity devuelve dos extras: "latitud" y "longitud"
+            double latitud = data.getDoubleExtra("latitud", 0);
+            double longitud = data.getDoubleExtra("longitud", 0);
+            coordenadas = latitud + " , " + longitud;
+            etCoordenadas.setText(coordenadas);
         }
     }
 
