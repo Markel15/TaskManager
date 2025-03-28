@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class miBD extends SQLiteOpenHelper {
 
     private static final String NOMBRE = "tareas.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     private static miBD miBD = null;
 

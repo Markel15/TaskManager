@@ -21,11 +21,15 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedListener {
+    private static final int REQUEST_UBICACION = 1001;
+
     private EditText etTitulo, etDescripcion, etFechaFinalizacion, etCoordenadas;
     private Spinner spPrioridad;
     private Button btnGuardar;
     private miBD miDb;
     private long fechaFinalSeleccionada = 0; // fecha en milisegundos
+
+    private String coordenadas = "0 , 0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
         etCoordenadas.setFocusable(false);
         etCoordenadas.setOnClickListener(v -> {
             Intent intent = new Intent(this, UbicacionActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_UBICACION);
         });
 
         // Configura el Spinner con el array de prioridades
@@ -105,6 +109,7 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
         tarea.setFechaFinalizacion(fechaFinalSeleccionada);
         tarea.setPrioridad(prioridad);
         tarea.setCompletado(false);
+        tarea.setCoordenadas(coordenadas);
 
         // Insertar la tarea en la base de datos
         SQLiteDatabase db = miDb.getWritableDatabase();
@@ -116,6 +121,7 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
         values.put("completado", tarea.isCompletado() ? 1 : 0);
         values.put("prioridad", tarea.getPrioridad());
         values.put("usuarioId", tarea.getUsuId());
+        values.put("localizacion", tarea.getCoordenadas());
 
         long newRowId = db.insert("tareas", null, values);
         db.close();
@@ -129,6 +135,17 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
             finish(); // Regresa a la MainActivity
         } else {
             Toast.makeText(this, R.string.err_tarea_añadida, Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_UBICACION && resultCode == RESULT_OK) {
+            // UbicacionActivity devuelve dos extras: "latitud" y "longitud"
+            double latitud = data.getDoubleExtra("latitud", 0);
+            double longitud = data.getDoubleExtra("longitud", 0);
+            coordenadas = latitud + " , " + longitud;
+            etCoordenadas.setText(coordenadas);
         }
     }
 

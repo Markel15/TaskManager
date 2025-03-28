@@ -10,10 +10,12 @@ public class Tarea {
     private boolean completado;
     private int prioridad;     // 0 = baja, 1 = media, 2 = alta
 
+    private String coordenadas;
+
     public Tarea(){}
 
     // Constructor completo
-    public Tarea(int id, int usuId, String titulo, String descripcion, long fechaCreacion, long fechaFinalizacion, boolean completado, int prioridad) {
+    public Tarea(int id, int usuId, String titulo, String descripcion, long fechaCreacion, long fechaFinalizacion, boolean completado, int prioridad, String coordenadas) {
         this.id = id;
         this.usuId = usuId;
         this.titulo = titulo;
@@ -22,6 +24,7 @@ public class Tarea {
         this.fechaFinalizacion = fechaFinalizacion;
         this.completado = completado;
         this.prioridad = prioridad;
+        this.coordenadas = coordenadas;
     }
 
     // Getters y setters
@@ -48,4 +51,8 @@ public class Tarea {
 
     public int getPrioridad() { return prioridad; }
     public void setPrioridad(int prioridad) { this.prioridad = prioridad; }
+
+    public String getCoordenadas() { return coordenadas; }
+
+    public void setCoordenadas(String coordenadas) { this.coordenadas = coordenadas;}
 }

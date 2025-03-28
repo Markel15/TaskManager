@@ -51,4 +51,5 @@
     <string name="Calendario">Calendar</string>
     <string name="Añadir_nueva_ta">ADD NEW TASK</string>
     <string name="Ubicación">Ubication</string>
+    <string name="confirmar_ubicacion">Confirm ubication</string>
 </resources>
