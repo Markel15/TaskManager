@@ -53,6 +53,7 @@ dependencies {
     implementation (libs.osmdroid.geopackage) {
         exclude group: 'com.j256.ormlite', module: 'ormlite-core'
     }
+    implementation libs.play.services.location
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
