@@ -56,4 +56,6 @@
     <string name="no_ubi">Ezin izan da kokapen bat lortu, defektuzko balio bat hartuko da</string>
     <string name="error_ubi">"Errorea kokapena lortzerakoan: "</string>
     <string name="ubi_denegado">Kokapen baimena ukatuta</string>
+    <string name="descr_icono">Oraingo kokapena</string>
+    <string name="descr_selec_ubi">Zehaztutako kokapena</string>
 </resources>

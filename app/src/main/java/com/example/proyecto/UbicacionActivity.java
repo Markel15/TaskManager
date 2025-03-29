@@ -141,7 +141,7 @@ public class UbicacionActivity extends AppCompatActivity {
                         markerUserLocation = new Marker(map);
                         markerUserLocation.setPosition(currentPoint);
                         markerUserLocation.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                        markerUserLocation.setTitle("Tu ubicación actual");
+                        markerUserLocation.setTitle(getString(R.string.descr_icono));
                         markerUserLocation.setIcon(getResources().getDrawable(R.drawable.map_marker_radius, null));
                         map.getOverlays().add(markerUserLocation);
                         map.invalidate();

@@ -30,7 +30,7 @@ public class MapTouchReceiver implements MapEventsReceiver {
         Marker marker = new Marker(map);
         marker.setPosition(p);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        marker.setTitle("Ubicación seleccionada");
+        marker.setTitle(context.getString(R.string.descr_selec_ubi));
         marker.setIcon(context.getResources().getDrawable(R.drawable.map_marker, null));
 
         // Guardar la referencia del nuevo marcador para poder eliminarlo en el futuro

@@ -56,4 +56,6 @@
     <string name="no_ubi">It wasn\'t possible to get the ubication. using a default location</string>
     <string name="error_ubi">"Error obtaining ubication: "</string>
     <string name="ubi_denegado">Ubication permission denied</string>
+    <string name="descr_icono">Your actual ubication</string>
+    <string name="descr_selec_ubi">Selected ubication</string>
 </resources>

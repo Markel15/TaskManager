@@ -55,4 +55,6 @@
     <string name="no_ubi">No se pudo obtener la ubicación actual, usando valor por defecto</string>
     <string name="error_ubi">"Error al obtener la ubicación: "</string>
     <string name="ubi_denegado">Permiso de ubicación denegado</string>
+    <string name="descr_icono">Tu ubicación actual</string>
+    <string name="descr_selec_ubi">Ubicación seleccionada</string>
 </resources>
