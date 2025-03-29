@@ -110,7 +110,7 @@ public class UbicacionActivity extends AppCompatActivity {
                 setResult(RESULT_OK, resultIntent);
                 finish();
             } else {
-                Toast.makeText(UbicacionActivity.this, "Selecciona una ubicación primero", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UbicacionActivity.this, R.string.selec_ubi, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -133,29 +133,27 @@ public class UbicacionActivity extends AppCompatActivity {
                     GeoPoint currentPoint;
                     if (location != null) {
                         currentPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    } else {
-                        // Valor arbitrario para establecer el punto inicial
-                        currentPoint = new GeoPoint(42.8467, -2.6731);
-                        Toast.makeText(UbicacionActivity.this, "No se pudo obtener la ubicación actual, usando valor por defecto", Toast.LENGTH_SHORT).show();
-                    }
-                    // Centrar el mapa en currentPoint
-                    map.getController().setZoom(12.0);
-                    map.getController().setCenter(currentPoint);
+                        // Centrar el mapa en currentPoint
+                        map.getController().setZoom(12.0);
+                        map.getController().setCenter(currentPoint);
 
-                    // Añadir el marcador fijo con icono distinto para la ubicación del usuario
-                    markerUserLocation = new Marker(map);
-                    markerUserLocation.setPosition(currentPoint);
-                    markerUserLocation.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                    markerUserLocation.setTitle("Tu ubicación actual");
-                    markerUserLocation.setIcon(getResources().getDrawable(R.drawable.map_marker_radius, null));
-                    map.getOverlays().add(markerUserLocation);
-                    map.invalidate();
+                        // Añadir el marcador fijo con la ubicación del usuario
+                        markerUserLocation = new Marker(map);
+                        markerUserLocation.setPosition(currentPoint);
+                        markerUserLocation.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                        markerUserLocation.setTitle("Tu ubicación actual");
+                        markerUserLocation.setIcon(getResources().getDrawable(R.drawable.map_marker_radius, null));
+                        map.getOverlays().add(markerUserLocation);
+                        map.invalidate();
+                    } else {
+                        Toast.makeText(UbicacionActivity.this, R.string.no_ubi, Toast.LENGTH_SHORT).show();
+                    }
                 }
             })
             .addOnFailureListener(this, new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UbicacionActivity.this, "Error al obtener la ubicación: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UbicacionActivity.this, R.string.error_ubi + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
     }
@@ -168,7 +166,7 @@ public class UbicacionActivity extends AppCompatActivity {
                 // Si se concedió el permiso, volvemos a solicitar la ubicación
                 requestUserLocationMarker(map);
             } else {
-                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.ubi_denegado, Toast.LENGTH_SHORT).show();
             }
         }
     }

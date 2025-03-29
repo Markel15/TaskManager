@@ -52,4 +52,8 @@
     <string name="Añadir_nueva_ta">GEHITU ZEREGIN BERRIA</string>
     <string name="Ubicación">Kokapena</string>
     <string name="confirmar_ubicacion">Berretsi kokapena</string>
+    <string name="selec_ubi">Zehaztu kokapen bat lehenengo</string>
+    <string name="no_ubi">Ezin izan da kokapen bat lortu, defektuzko balio bat hartuko da</string>
+    <string name="error_ubi">"Errorea kokapena lortzerakoan: "</string>
+    <string name="ubi_denegado">Kokapen baimena ukatuta</string>
 </resources>

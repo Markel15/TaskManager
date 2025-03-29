@@ -51,4 +51,8 @@
     <string name="Añadir_nueva_ta">AÑADIR NUEVA TAREA</string>
     <string name="Ubicación">Ubicación</string>
     <string name="confirmar_ubicacion">Confirmar ubicación</string>
+    <string name="selec_ubi">Selecciona una ubicación primero</string>
+    <string name="no_ubi">No se pudo obtener la ubicación actual, usando valor por defecto</string>
+    <string name="error_ubi">"Error al obtener la ubicación: "</string>
+    <string name="ubi_denegado">Permiso de ubicación denegado</string>
 </resources>
