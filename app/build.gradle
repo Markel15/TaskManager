@@ -54,6 +54,7 @@ dependencies {
         exclude group: 'com.j256.ormlite', module: 'ormlite-core'
     }
     implementation libs.play.services.location
+    implementation libs.work.runtime
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
