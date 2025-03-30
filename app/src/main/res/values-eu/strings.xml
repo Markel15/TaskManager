@@ -58,4 +58,5 @@
     <string name="ubi_denegado">Kokapen baimena ukatuta</string>
     <string name="descr_icono">Oraingo kokapena</string>
     <string name="descr_selec_ubi">Zehaztutako kokapena</string>
+    <string name="err_obten_usu">Errorea erabiltzailearen datuak bilatzerakoan</string>
 </resources>

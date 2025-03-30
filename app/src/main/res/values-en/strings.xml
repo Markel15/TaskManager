@@ -58,4 +58,5 @@
     <string name="ubi_denegado">Ubication permission denied</string>
     <string name="descr_icono">Your actual ubication</string>
     <string name="descr_selec_ubi">Selected ubication</string>
+    <string name="err_obten_usu">Erreor getting user information</string>
 </resources>

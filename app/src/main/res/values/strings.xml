@@ -57,4 +57,5 @@
     <string name="ubi_denegado">Permiso de ubicación denegado</string>
     <string name="descr_icono">Tu ubicación actual</string>
     <string name="descr_selec_ubi">Ubicación seleccionada</string>
+    <string name="err_obten_usu">Error al obtener lo datos del usuario</string>
 </resources>
