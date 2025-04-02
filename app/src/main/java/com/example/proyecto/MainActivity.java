@@ -147,10 +147,11 @@ public class MainActivity extends BaseActivity {
            }
         });
         // Accion al pulsar la imagen que muestra la foto de perfil del usuario
-        imageView.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 Toast.makeText(MainActivity.this, "Imagen pulsada", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 
