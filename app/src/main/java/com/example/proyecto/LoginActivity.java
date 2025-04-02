@@ -1,9 +1,14 @@
 package com.example.proyecto;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -49,6 +54,10 @@ public class LoginActivity extends BaseActivity {
 
             if (usuario.isEmpty() || contraseña.isEmpty()) {
                 Toast.makeText(this, R.string.credenciales_incorrectas, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!hayInternet()) {
+                Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
                 return;
             }
             // Llamar al método que realiza el login remoto
@@ -102,5 +111,21 @@ public class LoginActivity extends BaseActivity {
         WorkManager.getInstance(this).enqueue(workRequest);
     }
 
+    private boolean hayInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                NetworkCapabilities capabilities = cm.getNetworkCapabilities(cm.getActiveNetwork());
+                return capabilities != null && (
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+            } else {
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                return activeNetwork != null && activeNetwork.isConnected();
+            }
+        }
+        return false;
+    }
 
 }

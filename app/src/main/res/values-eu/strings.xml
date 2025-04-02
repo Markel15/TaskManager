@@ -61,4 +61,5 @@
     <string name="err_obten_usu">Errorea erabiltzailearen datuak bilatzerakoan</string>
     <string name="tomar_foto">Atera argazkia</string>
     <string name="selec_galeria">Hautatu galeriatik</string>
+    <string name="no_internet">Ez duzu Internetik</string>
 </resources>

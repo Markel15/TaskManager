@@ -1,5 +1,10 @@
 package com.example.proyecto;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +33,10 @@ public class RegisterActivity extends BaseActivity {
             String password = etPassword.getText().toString().trim();
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, R.string.register_1, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!hayInternet()) {
+                Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
                 return;
             }
             // Llamar al método que registra el usuario de forma remota
@@ -64,5 +73,21 @@ public class RegisterActivity extends BaseActivity {
 
         // Encolar
         WorkManager.getInstance(this).enqueue(workRequest);
+    }
+    private boolean hayInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                NetworkCapabilities capabilities = cm.getNetworkCapabilities(cm.getActiveNetwork());
+                return capabilities != null && (
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+            } else {
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                return activeNetwork != null && activeNetwork.isConnected();
+            }
+        }
+        return false;
     }
 }

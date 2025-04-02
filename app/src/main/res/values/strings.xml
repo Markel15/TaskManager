@@ -60,4 +60,5 @@
     <string name="err_obten_usu">Error al obtener lo datos del usuario</string>
     <string name="tomar_foto">Sacar foto</string>
     <string name="selec_galeria">Seleccionar de la galería</string>
+    <string name="no_internet">No tienes conexión a Internet</string>
 </resources>

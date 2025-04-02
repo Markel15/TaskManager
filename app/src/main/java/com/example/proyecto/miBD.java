@@ -41,7 +41,8 @@ public class miBD extends SQLiteOpenHelper {
         String comando2 = "CREATE TABLE usuarios (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT NOT NULL UNIQUE, " +
-                "password TEXT NOT NULL" +
+                "password TEXT NOT NULL, " +
+                "imagenPerfil BLOB" +
                 ");";
         db.execSQL(comando1);
         db.execSQL(comando2);
