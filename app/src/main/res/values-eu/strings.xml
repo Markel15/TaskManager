@@ -59,4 +59,6 @@
     <string name="descr_icono">Oraingo kokapena</string>
     <string name="descr_selec_ubi">Zehaztutako kokapena</string>
     <string name="err_obten_usu">Errorea erabiltzailearen datuak bilatzerakoan</string>
+    <string name="tomar_foto">Atera argazkia</string>
+    <string name="selec_galeria">Hautatu galeriatik</string>
 </resources>

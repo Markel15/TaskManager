@@ -6,4 +6,5 @@
     <color name="white">#FFFFFF</color>
     <color name="onSurface">#F8F4F9</color>
     <color name="colorLlamativo">#9B4487</color>
+    <color name="colorSurface">#361F27</color>
 </resources>

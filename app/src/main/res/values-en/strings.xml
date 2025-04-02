@@ -59,4 +59,6 @@
     <string name="descr_icono">Your actual ubication</string>
     <string name="descr_selec_ubi">Selected ubication</string>
     <string name="err_obten_usu">Erreor getting user information</string>
+    <string name="tomar_foto">Take a picture</string>
+    <string name="selec_galeria">Select from gallery</string>
 </resources>

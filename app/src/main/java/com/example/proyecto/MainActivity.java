@@ -11,16 +11,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -35,6 +39,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -50,6 +56,10 @@ public class MainActivity extends BaseActivity {
     NavigationView navigationView;
     ImageView imageView;
     int codigo = 101;
+
+    private ActivityResultLauncher<Void> takePictureLauncher;
+    private ActivityResultLauncher<String> pickImageLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,11 +157,49 @@ public class MainActivity extends BaseActivity {
            }
         });
         // Accion al pulsar la imagen que muestra la foto de perfil del usuario
-        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(MainActivity.this, "Imagen pulsada", Toast.LENGTH_SHORT).show();
-                return true;
+            public void onClick(View v) {
+                // Inflar el layout del diálogo personalizado
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                View dialogView = inflater.inflate(R.layout.dialogo_cambio_imagen, null);
+
+                // Referenciar la imagen y los botones del layout
+                ImageView dialogImage = dialogView.findViewById(R.id.dialog_image);
+                Button btnFoto = dialogView.findViewById(R.id.btn_tomar_foto);
+                Button btnGaleria = dialogView.findViewById(R.id.btn_galeria);
+
+                // Asignar la imagen actual del ImageView principal al diálogo
+                dialogImage.setImageDrawable(imageView.getDrawable());
+
+                // Construir el diálogo
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MainActivity.this,R.style.MaterialAlertDialog_Proyecto)
+                        .setView(dialogView)
+                        .setCancelable(true);  // Permite cerrar al pulsar fuera
+
+                // Crear y mostrar el diálogo
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                // Asignar listeners a los botones
+                btnFoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        takePictureLauncher.launch(null);
+                        dialog.dismiss();
+                    }
+                });
+
+                btnGaleria.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pickImageLauncher.launch("image/*");
+                        dialog.dismiss();
+                    }
+                });
+
+                // Mostrar el diálogo
+                dialog.show();
             }
         });
 
@@ -177,6 +225,22 @@ public class MainActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        takePictureLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), bitmap -> {
+            if (bitmap != null) {
+                // Asigna el bitmap al ImageView y procede a guardarlo o actualizar el perfil.
+                imageView.setImageBitmap(bitmap);
+                // Aquí se podría convertir el bitmap a Base64 y llamar al Worker para actualizar la imagen en el servidor.
+            }
+        });
+
+        pickImageLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
+            if (uri != null) {
+                imageView.setImageURI(uri);
+                // Aquí se podría convertir la imagen a Base64 y actualizarla en el servidor.
+            }
+        });
+
     }
     @Override
     protected void onResume() {
