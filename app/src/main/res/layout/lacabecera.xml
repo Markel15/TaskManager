@@ -9,6 +9,7 @@
     android:background="@color/colorPrimary">
 
     <ImageView
+        android:id="@+id/mi_perfil"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/account_circle_24px"

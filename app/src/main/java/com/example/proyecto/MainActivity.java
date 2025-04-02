@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class MainActivity extends BaseActivity {
     private List<Tarea> filtroLista;  // Variable de apoyo que es una copia de la original para poder filtrar tareas
     DrawerLayout elMenuDesplegable;
     NavigationView navigationView;
+    ImageView imageView;
     int codigo = 101;
 
     @Override
@@ -94,11 +96,13 @@ public class MainActivity extends BaseActivity {
         // Configurar el DrawerLayout y NavigationView
         elMenuDesplegable = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.elnavigationview);
+        View headerView = navigationView.getHeaderView(0);
+        imageView = headerView.findViewById(R.id.mi_perfil);
         if (userId != -1) {
             String username = obtenerNombreUsuario(userId);
 
             // Actualizar el TextView en la cabecera
-            View headerView = navigationView.getHeaderView(0);
+            headerView = navigationView.getHeaderView(0);
             TextView tvUsername = headerView.findViewById(R.id.tvUsername);
             if (username != null) {
                 tvUsername.setText(username);
@@ -141,6 +145,13 @@ public class MainActivity extends BaseActivity {
                elMenuDesplegable.closeDrawers();
                return false;
            }
+        });
+        // Accion al pulsar la imagen que muestra la foto de perfil del usuario
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Imagen pulsada", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Establecer el ícono de "hamburguesa" en la barra de acción
