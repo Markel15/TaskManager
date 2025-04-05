@@ -3,6 +3,7 @@ package com.example.proyecto;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -54,7 +55,9 @@ public class RegisterWorker extends Worker {
                 // Procesar la respuesta JSON
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 if (jsonResponse.has("success")) {
-                    return Result.success();
+                    int userId = jsonResponse.getInt("id");
+                    Data output = new Data.Builder().putInt("id", userId).build();
+                    return Result.success(output);
                 }
             }
         } catch (Exception e) {

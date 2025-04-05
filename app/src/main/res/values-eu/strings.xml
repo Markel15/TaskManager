@@ -62,4 +62,5 @@
     <string name="tomar_foto">Atera argazkia</string>
     <string name="selec_galeria">Hautatu galeriatik</string>
     <string name="no_internet">Ez duzu Internetik</string>
+    <string name="err_bd_local">Datu base lokalean izena ematerakoan errorea</string>
 </resources>

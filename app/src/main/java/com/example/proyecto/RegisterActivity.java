@@ -1,6 +1,9 @@
 package com.example.proyecto;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
@@ -15,15 +18,20 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class RegisterActivity extends BaseActivity {
     private EditText etUsername, etPassword;
     private Button btnRegister;
+
+    miBD miDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        miDb = miBD.getMiBD(this);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnRegister = findViewById(R.id.btnRegister);
@@ -62,8 +70,19 @@ public class RegisterActivity extends BaseActivity {
                     if (workInfo != null && workInfo.getState().isFinished()) {
                         if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                             // La tarea fue exitosa
-                            Toast.makeText(RegisterActivity.this, R.string.register_2, Toast.LENGTH_SHORT).show();
-                            finish(); // Vuelve a LoginActivity
+                            int userId = workInfo.getOutputData().getInt("id", -1);
+                            if (userId != -1) {
+                                if (registerUserLocal(userId, username, password)) {
+                                    Toast.makeText(RegisterActivity.this, R.string.register_2, Toast.LENGTH_SHORT).show();
+                                    finish(); // Volver a LoginActivity
+                                }
+                                else {
+                                    Toast.makeText(RegisterActivity.this, R.string.err_bd_local, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else {
+                                Toast.makeText(RegisterActivity.this, R.string.err_bd_local, Toast.LENGTH_SHORT).show();
+                            }
                         } else if (workInfo.getState() == WorkInfo.State.FAILED) {
                             // La tarea falló
                             Toast.makeText(RegisterActivity.this, R.string.register_3, Toast.LENGTH_SHORT).show();
@@ -90,4 +109,30 @@ public class RegisterActivity extends BaseActivity {
         }
         return false;
     }
+    private boolean registerUserLocal(int userId, String username, String password) {
+        SQLiteDatabase bd = miDb.getWritableDatabase();
+
+        // Verificar si el usuario ya existe
+        Cursor c = bd.rawQuery("SELECT * FROM usuarios WHERE id = ?", new String[]{String.valueOf(userId)});
+        if (c.moveToFirst()) {
+            c.close();
+            bd.close();
+            return false; // Usuario ya existente
+        }
+        c.close();
+
+        // Cifrar la contraseña antes de almacenarla
+        String sal = BCrypt.gensalt();
+        String hashedPassword = BCrypt.hashpw(password, sal);
+
+        ContentValues values = new ContentValues();
+        values.put("id", userId);
+        values.put("username", username);
+        values.put("password", hashedPassword);
+
+        long result = bd.insert("usuarios", null, values);
+        bd.close();
+        return result != -1; // Devuelve true si la inserción fue exitosa
+    }
+
 }

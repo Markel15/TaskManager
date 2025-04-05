@@ -39,7 +39,7 @@ public class miBD extends SQLiteOpenHelper {
                 "FOREIGN KEY (usuarioId) REFERENCES usuarios(id) ON DELETE CASCADE"+
                 ");";
         String comando2 = "CREATE TABLE usuarios (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id INTEGER PRIMARY KEY, " +
                 "username TEXT NOT NULL UNIQUE, " +
                 "password TEXT NOT NULL, " +
                 "imagenPerfil BLOB" +
