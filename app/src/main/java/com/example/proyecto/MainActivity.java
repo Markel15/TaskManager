@@ -456,12 +456,6 @@ public class MainActivity extends BaseActivity {
         listaTareas.remove(tarea);
         filtroLista.remove(tarea);
     }
-    private String convertirBitmapABase64(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        byte[] imagenBytes = outputStream.toByteArray();
-        return Base64.encodeToString(imagenBytes, Base64.DEFAULT);
-    }
     private void actualizarImagenPerfil(Bitmap bitmap) {
         SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
         int userId = prefs.getInt("idDeUsuario", -1);

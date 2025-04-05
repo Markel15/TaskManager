@@ -1,6 +1,8 @@
 package com.example.proyecto;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.work.WorkerParameters;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -35,14 +38,30 @@ public class updatePerfilWorker extends Worker {
         }
 
         try {
-            // Leer imagen desde archivo y convertir a Base64
-            File imageFile = new File(imagePath);
-            byte[] imageBytes = new byte[(int) imageFile.length()];
-            FileInputStream fis = new FileInputStream(imageFile);
-            fis.read(imageBytes);
-            fis.close();
+            // Leer imagen desde archivo y convertir a Base64 eliminando algún metadato si lo hubiese
+            Bitmap originalBitmap = BitmapFactory.decodeFile(imagePath);
+            int maxSize = 800; // tamaño máximo para ancho o alto
 
-            String imagenBase64 = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+            int width = originalBitmap.getWidth();
+            int height = originalBitmap.getHeight();
+            float ratio = (float) width / (float) height;
+
+            if (width > height) {
+                width = maxSize;
+                height = (int) (width / ratio);
+            } else {
+                height = maxSize;
+                width = (int) (height * ratio);
+            }
+
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, true);
+
+            // Comprimir a un ByteArrayOutputStream para convertir a base64
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos); // Usar menor calidad para reducir tamaño
+            byte[] imageBytes = baos.toByteArray();
+
+            String imagenBase64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
             URL destino = new URL("http://ec2-51-44-167-78.eu-west-3.compute.amazonaws.com/mhernandez141/WEB/updateProfile.php");
             HttpURLConnection connection = (HttpURLConnection) destino.openConnection();
