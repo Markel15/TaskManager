@@ -9,8 +9,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,11 +42,18 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -230,14 +240,19 @@ public class MainActivity extends BaseActivity {
             if (bitmap != null) {
                 // Asigna el bitmap al ImageView y procede a guardarlo o actualizar el perfil.
                 imageView.setImageBitmap(bitmap);
-                // Aquí se podría convertir el bitmap a Base64 y llamar al Worker para actualizar la imagen en el servidor.
+                actualizarImagenPerfil(bitmap);
             }
         });
 
         pickImageLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
             if (uri != null) {
                 imageView.setImageURI(uri);
-                // Aquí se podría convertir la imagen a Base64 y actualizarla en el servidor.
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    actualizarImagenPerfil(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -431,5 +446,45 @@ public class MainActivity extends BaseActivity {
         listaTareas.remove(tarea);
         filtroLista.remove(tarea);
     }
+    private String convertirBitmapABase64(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        byte[] imagenBytes = outputStream.toByteArray();
+        return Base64.encodeToString(imagenBytes, Base64.DEFAULT);
+    }
+    private void actualizarImagenPerfil(Bitmap bitmap) {
+        SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+        int userId = prefs.getInt("idDeUsuario", -1);
+
+        if (userId != -1) {
+            try {
+                // Guardar el bitmap en archivo temporal
+                File file = new File(getCacheDir(), "perfil_temp.jpg");
+                FileOutputStream fos = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+                fos.flush();
+                fos.close();
+
+                // Pasar la ruta al Worker
+                Data data = new Data.Builder()
+                        .putInt("userId", userId)
+                        .putString("imagePath", file.getAbsolutePath())
+                        .build();
+
+                OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(updatePerfilWorker.class)
+                        .setInputData(data)
+                        .build();
+
+                WorkManager.getInstance(this).enqueue(request);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 
 }
