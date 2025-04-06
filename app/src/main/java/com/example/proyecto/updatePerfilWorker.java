@@ -1,6 +1,8 @@
 package com.example.proyecto;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -90,7 +92,17 @@ public class updatePerfilWorker extends Worker {
 
                 JSONObject json = new JSONObject(response.toString());
                 if (json.has("success")) {
-                    return Result.success();
+                    // procedemos a actualizar la base de datos local.
+                    miBD dbHelper = miBD.getMiBD(getApplicationContext());
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put("imagenPerfil", imageBytes);  // La columna es de tipo BLOB
+                    int rows = db.update("usuarios", values, "id = ?", new String[]{String.valueOf(userId)});
+                    if (rows > 0) {
+                        return Result.success();
+                    } else {
+                        return Result.failure();
+                    }
                 } else {
                     return Result.failure();
                 }
