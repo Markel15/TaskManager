@@ -42,7 +42,7 @@ public class miBD extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY, " +
                 "username TEXT NOT NULL UNIQUE, " +
                 "password TEXT NOT NULL, " +
-                "imagenPerfil BLOB" +
+                "imagenPerfil MEDIUMBLOB" +
                 ");";
         db.execSQL(comando1);
         db.execSQL(comando2);
