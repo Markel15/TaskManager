@@ -549,21 +549,21 @@ public class MainActivity extends BaseActivity {
                 .observe(this, workInfo -> {
                     if (workInfo != null && workInfo.getState().isFinished()) {
                         if (workInfo.getState() == androidx.work.WorkInfo.State.SUCCEEDED) {
-                            // Recuperamos el username de la salida (si lo necesitas)
                             String username = workInfo.getOutputData().getString("username");
-                            // Actualizamos la cabecera (esto es solo un ejemplo)
                             View headerView = navigationView.getHeaderView(0);
                             TextView tvUsername = headerView.findViewById(R.id.tvUsername);
                             tvUsername.setText(username);
 
-                            byte[] imagenBytes = obtenerImagenPerfilLocal(userId);
-                            if (imagenBytes != null) {
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(imagenBytes, 0, imagenBytes.length);
-                                ImageView imageView = headerView.findViewById(R.id.mi_perfil);
-                                imageView.setImageBitmap(bitmap);
-                            }
                         } else {
                             Toast.makeText(this, R.string.err_des_foto, Toast.LENGTH_SHORT).show();
+                        }
+                        // Obtener la ultima imagen guardada para mostrarla (aunque no haya conexión)
+                        byte[] imagenBytes = obtenerImagenPerfilLocal(userId);
+                        if (imagenBytes != null) {
+                            View headerView = navigationView.getHeaderView(0);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(imagenBytes, 0, imagenBytes.length);
+                            ImageView imageView = headerView.findViewById(R.id.mi_perfil);
+                            imageView.setImageBitmap(bitmap);
                         }
                     }
                 });
