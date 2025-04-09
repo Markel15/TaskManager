@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
@@ -266,6 +267,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        obtenerYActualizarPerfil();
     }
     @Override
     protected void onResume() {
@@ -503,6 +505,56 @@ public class MainActivity extends BaseActivity {
             }
         }
         return false;
+    }
+
+    private void obtenerYActualizarPerfil() {
+        SharedPreferences prefs = getSharedPreferences("MiAppPrefs", MODE_PRIVATE);
+        int userId = prefs.getInt("idDeUsuario", -1);
+        if (userId == -1) return;
+
+        androidx.work.Data inputData = new androidx.work.Data.Builder()
+                .putInt("userId", userId)
+                .build();
+
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(getPerfilWorker.class)
+                .setInputData(inputData)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(request);
+
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(request.getId())
+                .observe(this, workInfo -> {
+                    if (workInfo != null && workInfo.getState().isFinished()) {
+                        if (workInfo.getState() == androidx.work.WorkInfo.State.SUCCEEDED) {
+                            // Recuperamos el username de la salida (si lo necesitas)
+                            String username = workInfo.getOutputData().getString("username");
+                            // Actualizamos la cabecera (esto es solo un ejemplo)
+                            View headerView = navigationView.getHeaderView(0);
+                            TextView tvUsername = headerView.findViewById(R.id.tvUsername);
+                            tvUsername.setText(username);
+
+                            byte[] imagenBytes = obtenerImagenPerfilLocal(userId);
+                            if (imagenBytes != null) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(imagenBytes, 0, imagenBytes.length);
+                                ImageView imageView = headerView.findViewById(R.id.mi_perfil);
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        } else {
+                            Toast.makeText(this, "Error al obtener la imagen de perfil. Probablemente no tengas conexión a internet", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+    @SuppressLint("Range")
+    private byte[] obtenerImagenPerfilLocal(int userId) {
+        SQLiteDatabase db = miDb.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT imagenPerfil FROM usuarios WHERE id = ?", new String[]{String.valueOf(userId)});
+        byte[] imagenBytes = null;
+        if (cursor.moveToFirst()) {
+            imagenBytes = cursor.getBlob(cursor.getColumnIndex("imagenPerfil"));
+        }
+        cursor.close();
+        return imagenBytes;
     }
 
 }

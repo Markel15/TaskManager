@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class updatePerfilWorker extends Worker {
 
@@ -63,7 +64,8 @@ public class updatePerfilWorker extends Worker {
             resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos); // Usar menor calidad para reducir tamaño
             byte[] imageBytes = baos.toByteArray();
 
-            String imagenBase64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            String imagenBase64 = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+            String imagenCodificada = URLEncoder.encode(imagenBase64, "UTF-8");
 
             URL destino = new URL("http://ec2-51-44-167-78.eu-west-3.compute.amazonaws.com/mhernandez141/WEB/updateProfile.php");
             HttpURLConnection connection = (HttpURLConnection) destino.openConnection();
@@ -74,7 +76,7 @@ public class updatePerfilWorker extends Worker {
             // Solo mandamos userId e imagen
             String parametros = "accion=updateProfileImage"
                     + "&userId=" + userId
-                    + "&imagen=" + imagenBase64;
+                    + "&imagen=" + imagenCodificada;
 
             PrintWriter out = new PrintWriter(connection.getOutputStream());
             out.print(parametros);
