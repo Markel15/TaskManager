@@ -63,4 +63,6 @@
     <string name="selec_galeria">Hautatu galeriatik</string>
     <string name="no_internet">Ez duzu Internetik</string>
     <string name="err_bd_local">Datu base lokalean izena ematerakoan errorea</string>
+    <string name="err_des_foto">Errorea zerbitzariarekin konektatzerakoan. Gordetako azken datuak kargatzen...</string>
+    <string name="err_guard_imagen">Errorea argazkia gordetzerakoan</string>
 </resources>

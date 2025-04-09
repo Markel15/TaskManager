@@ -65,7 +65,7 @@ public class updatePerfilWorker extends Worker {
             byte[] imageBytes = baos.toByteArray();
 
             String imagenBase64 = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
-            String imagenCodificada = URLEncoder.encode(imagenBase64, "UTF-8");
+            String imagenCodificada = URLEncoder.encode(imagenBase64, "UTF-8");  // Codificar para evitar conflictos de formato
 
             URL destino = new URL("http://ec2-51-44-167-78.eu-west-3.compute.amazonaws.com/mhernandez141/WEB/updateProfile.php");
             HttpURLConnection connection = (HttpURLConnection) destino.openConnection();

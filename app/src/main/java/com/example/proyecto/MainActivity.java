@@ -485,7 +485,7 @@ public class MainActivity extends BaseActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.err_guard_imagen, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -540,7 +540,7 @@ public class MainActivity extends BaseActivity {
                                 imageView.setImageBitmap(bitmap);
                             }
                         } else {
-                            Toast.makeText(this, "Error al obtener la imagen de perfil. Probablemente no tengas conexión a internet", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, R.string.err_des_foto, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

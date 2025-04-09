@@ -62,4 +62,6 @@
     <string name="selec_galeria">Seleccionar de la galería</string>
     <string name="no_internet">No tienes conexión a Internet</string>
     <string name="err_bd_local">Error al registrarse en la base de datos local</string>
+    <string name="err_des_foto">No se pudo conectar al servidor. Intentando recoger los ultimos datos guardados...</string>
+    <string name="err_guard_imagen">Error al guardar la imagen</string>
 </resources>

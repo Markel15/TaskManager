@@ -63,4 +63,6 @@
     <string name="selec_galeria">Select from gallery</string>
     <string name="no_internet">No Internet connection</string>
     <string name="err_bd_local">Error signing up in the local database</string>
+    <string name="err_des_foto">Error connecting to the server. Getting last saved data...</string>
+    <string name="err_guard_imagen">Error saving the image</string>
 </resources>
