@@ -246,8 +246,6 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
             }
             else if (bitmap != null) {
-                // Asigna el bitmap al ImageView y procede a guardarlo o actualizar el perfil.
-                imageView.setImageBitmap(bitmap);
                 actualizarImagenPerfil(bitmap);
             }
         });
@@ -257,7 +255,6 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
             }
             else if (uri != null) {
-                imageView.setImageURI(uri);
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                     actualizarImagenPerfil(bitmap);
@@ -482,6 +479,32 @@ public class MainActivity extends BaseActivity {
                         .build();
 
                 WorkManager.getInstance(this).enqueue(request);
+
+                // Observar el resultado del Worker updatePerfilWorker
+                WorkManager.getInstance(this).getWorkInfoByIdLiveData(request.getId())
+                        .observe(this, workInfo -> {
+                            if (workInfo != null && workInfo.getState().isFinished()) {
+                                if (workInfo.getState() == androidx.work.WorkInfo.State.SUCCEEDED) {
+                                    // Asigna el bitmap al ImageView
+                                    imageView.setImageBitmap(bitmap);
+                                } else {
+                                    String errorType = workInfo.getOutputData().getString("error");
+                                    String mensaje;
+                                    if ("tamaño_excedido".equals(errorType)) {
+                                        mensaje = getString(R.string.err_tamaño);
+                                    } else if ("db_local_fallo".equals(errorType)) {
+                                        mensaje = getString(R.string.err_bd_foto);
+                                    } else if ("error_server".equals(errorType)) {
+                                        mensaje = getString(R.string.err_foto);
+                                    } else if (errorType != null && errorType.startsWith("error_http")) {
+                                        mensaje = getString(R.string.err_http) + errorType;
+                                    } else {
+                                        mensaje = getString(R.string.err_foto);
+                                    }
+                                    Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
             } catch (IOException e) {
                 e.printStackTrace();

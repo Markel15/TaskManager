@@ -65,4 +65,8 @@
     <string name="err_bd_local">Error signing up in the local database</string>
     <string name="err_des_foto">Error connecting to the server. Getting last saved data...</string>
     <string name="err_guard_imagen">Error saving the image</string>
+    <string name="err_tamaño">The image is larger than the maximum size (15MB)</string>
+    <string name="err_bd_foto">Error updating local database</string>
+    <string name="err_http">"HTTP error connecting: "</string>
+    <string name="err_foto">Error updating profile picture</string>
 </resources>

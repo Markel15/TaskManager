@@ -36,6 +36,8 @@ public class updatePerfilWorker extends Worker {
     public Result doWork() {
         int userId = getInputData().getInt("userId", -1);
         String imagePath = getInputData().getString("imagePath");
+        int maxBytes = 15000 * 1024; // 15 MB, el maximo de MEDIUMBLOB debería ser 16 MB
+
         if (userId == -1 || imagePath == null) {
             return Result.failure();
         }
@@ -63,6 +65,13 @@ public class updatePerfilWorker extends Worker {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos); // Usar menor calidad para reducir tamaño
             byte[] imageBytes = baos.toByteArray();
+
+            if (imageBytes.length > maxBytes) {
+                Data output = new Data.Builder()
+                        .putString("error", "tamaño_excedido")
+                        .build();
+                return Result.failure(output);
+            }
 
             String imagenBase64 = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
             String imagenCodificada = URLEncoder.encode(imagenBase64, "UTF-8");  // Codificar para evitar conflictos de formato
@@ -103,10 +112,16 @@ public class updatePerfilWorker extends Worker {
                     if (rows > 0) {
                         return Result.success();
                     } else {
-                        return Result.failure();
+                        Data output = new Data.Builder()
+                                .putString("error", "db_local_fallo")
+                                .build();
+                        return Result.failure(output);
                     }
                 } else {
-                    return Result.failure();
+                    Data output = new Data.Builder()
+                            .putString("error", "error_server")
+                            .build();
+                    return Result.failure(output);
                 }
             }
 

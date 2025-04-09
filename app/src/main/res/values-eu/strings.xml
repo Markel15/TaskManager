@@ -65,4 +65,8 @@
     <string name="err_bd_local">Datu base lokalean izena ematerakoan errorea</string>
     <string name="err_des_foto">Errorea zerbitzariarekin konektatzerakoan. Gordetako azken datuak kargatzen...</string>
     <string name="err_guard_imagen">Errorea argazkia gordetzerakoan</string>
+    <string name="err_tamaño">Argazkiak tamaina maximoa baino handiagaoa da (15MB)</string>
+    <string name="err_bd_foto">Errorea datu base lokala eguneratzen</string>
+    <string name="err_http">"HTTP errorea konektatzerakoan: "</string>
+    <string name="err_foto">Errorea profil argazkia eguneratzen</string>
 </resources>

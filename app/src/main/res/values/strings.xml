@@ -64,4 +64,8 @@
     <string name="err_bd_local">Error al registrarse en la base de datos local</string>
     <string name="err_des_foto">No se pudo conectar al servidor. Intentando recoger los ultimos datos guardados...</string>
     <string name="err_guard_imagen">Error al guardar la imagen</string>
+    <string name="err_tamaño">La imagen supera el tamaño máximo permitido (15 MB)</string>
+    <string name="err_bd_foto">Error al actualizar la base de datos local</string>
+    <string name="err_http">"Error HTTP al conectarse: "</string>
+    <string name="err_foto">Error al actualizar la imagen de perfil</string>
 </resources>
