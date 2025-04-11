@@ -167,6 +167,7 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
                 .putInt("prioridad", tarea.getPrioridad())
                 .putInt("usuarioId", tarea.getUsuId())
                 .putString("coordenadas", tarea.getCoordenadas())
+                .putInt("localId", tarea.getId())
                 .build();
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(TareaWorker.class)

@@ -33,6 +33,7 @@ public class TareaWorker extends Worker {
         int prioridad = getInputData().getInt("prioridad", 0);
         int usuarioId = getInputData().getInt("usuarioId", 0);
         String coordenadas = getInputData().getString("coordenadas");
+        int localId = getInputData().getInt("localId",0);
 
         try {
             // URL del script PHP para la creación de tareas
@@ -51,7 +52,8 @@ public class TareaWorker extends Worker {
                     + "&completado=" + completado
                     + "&prioridad=" + prioridad
                     + "&usuarioId=" + usuarioId
-                    + "&coordenadas=" + coordenadas;
+                    + "&coordenadas=" + coordenadas
+                    + "&localId=" + localId;
 
             PrintWriter out = new PrintWriter(connection.getOutputStream());
             out.print(parametros);
