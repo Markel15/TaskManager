@@ -2,6 +2,7 @@ package com.example.proyecto;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,12 +42,23 @@ public class DeadlineReceiver extends BroadcastReceiver {
                 notificationManager.createNotificationChannel(channel);
             }
 
+            // Crear PendingIntent para abrir MainActivity al pulsar la notificación
+            Intent openIntent = new Intent(context, MainActivity.class);
+            openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(
+                    context,
+                    tareaId, // Usar tareaId como requestCode para diferenciar notificaciones
+                    openIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "deadline_channel")
                     .setSmallIcon(android.R.drawable.ic_dialog_alert)
                     .setContentTitle(context.getString(R.string.Atencion))
                     .setContentText(context.getString(R.string.la_tarea) + " " + tareaTitulo + " " + context.getString(R.string.vence_24))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(true);
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
             if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
