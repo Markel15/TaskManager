@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/textView_login3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="@string/Añadir_nueva_ta"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/etTitulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.364" />
+
+    <EditText
+        android:id="@+id/etTitulo"
+        android:layout_width="263dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="55dp"
+        android:hint="@string/agr_titulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_login3" />
+
+    <Spinner
+        android:id="@+id/spPrioridad"
+        android:layout_width="168dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toEndOf="@+id/etDescripcion"
+        app:layout_constraintTop_toBottomOf="@id/etCoordenadas" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_prim_button"
+        android:backgroundTint="@null"
+        android:text="@string/agr_button"
+        android:textColor="@color/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.418"
+        app:layout_constraintStart_toEndOf="@+id/etFechaFinalizacion"
+        app:layout_constraintTop_toBottomOf="@id/spPrioridad"
+        app:layout_constraintVertical_bias="0.232" />
+
+    <EditText
+        android:id="@+id/etFechaFinalizacion"
+        android:layout_width="260dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="12dp"
+        android:hint="@string/agr_fecha"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etDescripcion"
+        app:layout_constraintVertical_bias="0.135" />
+
+    <EditText
+        android:id="@+id/etCoordenadas"
+        android:layout_width="260dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="56dp"
+        android:hint="@string/Ubicación"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintStart_toEndOf="@+id/etTitulo"
+        app:layout_constraintTop_toBottomOf="@+id/textView_login3" />
+
+    <EditText
+        android:id="@+id/etDescripcion"
+        android:layout_width="261dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/agr_descr"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etTitulo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

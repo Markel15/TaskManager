@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class miBD extends SQLiteOpenHelper {
 
     private static final String NOMBRE = "tareas.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     private static miBD miBD = null;
 
@@ -35,12 +35,14 @@ public class miBD extends SQLiteOpenHelper {
                 "completado INTEGER DEFAULT 0, " +
                 "prioridad INTEGER DEFAULT 0," +
                 "usuarioId INTEGER NOT NULL," +
+                "localizacion TEXT, " +
                 "FOREIGN KEY (usuarioId) REFERENCES usuarios(id) ON DELETE CASCADE"+
                 ");";
         String comando2 = "CREATE TABLE usuarios (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id INTEGER PRIMARY KEY, " +
                 "username TEXT NOT NULL UNIQUE, " +
-                "password TEXT NOT NULL" +
+                "password TEXT NOT NULL, " +
+                "imagenPerfil MEDIUMBLOB" +
                 ");";
         db.execSQL(comando1);
         db.execSQL(comando2);
@@ -48,7 +50,12 @@ public class miBD extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS tareas");
-        onCreate(db);
+        if (oldVersion < 2) { //Añadir el nuevo campo en caso de actualización de la aplicación
+            db.execSQL("ALTER TABLE tareas ADD COLUMN localizacion TEXT;");
+        }
+        else {
+            db.execSQL("DROP TABLE IF EXISTS tareas");
+            onCreate(db);
+        }
     }
 }

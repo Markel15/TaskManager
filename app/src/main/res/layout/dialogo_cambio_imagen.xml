@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <!-- Imagen actual del ImageView -->
+    <ImageView
+        android:id="@+id/dialog_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/account_circle_24px" />
+
+    <!-- Botón para tomar foto -->
+    <Button
+        android:id="@+id/btn_tomar_foto"
+        style="@style/ButtonStyle.Proyecto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tomar_foto"
+        android:layout_marginTop="16dp" />
+
+    <!-- Botón para seleccionar de la galería -->
+    <Button
+        android:id="@+id/btn_galeria"
+        style="@style/ButtonStyle.Proyecto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/selec_galeria"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

@@ -50,4 +50,23 @@
     <string name="err_sin_tareas">No tasks are due to that day</string>
     <string name="Calendario">Calendar</string>
     <string name="Añadir_nueva_ta">ADD NEW TASK</string>
+    <string name="Ubicación">Ubication</string>
+    <string name="confirmar_ubicacion">Confirm ubication</string>
+    <string name="selec_ubi">First select an ubication</string>
+    <string name="no_ubi">It wasn\'t possible to get the ubication. using a default location</string>
+    <string name="error_ubi">"Error obtaining ubication: "</string>
+    <string name="ubi_denegado">Ubication permission denied</string>
+    <string name="descr_icono">Your actual ubication</string>
+    <string name="descr_selec_ubi">Selected ubication</string>
+    <string name="err_obten_usu">Erreor getting user information</string>
+    <string name="tomar_foto">Take a picture</string>
+    <string name="selec_galeria">Select from gallery</string>
+    <string name="no_internet">No Internet connection</string>
+    <string name="err_bd_local">Error signing up in the local database</string>
+    <string name="err_des_foto">Error connecting to the server. Getting last saved data...</string>
+    <string name="err_guard_imagen">Error saving the image</string>
+    <string name="err_tamaño">The image is larger than the maximum size (15MB)</string>
+    <string name="err_bd_foto">Error updating local database</string>
+    <string name="err_http">"HTTP error connecting: "</string>
+    <string name="err_foto">Error updating profile picture</string>
 </resources>
