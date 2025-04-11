@@ -16,6 +16,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -132,6 +137,10 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
             Toast.makeText(this, R.string.tarea_añadida, Toast.LENGTH_SHORT).show();
             long fechaFinalizacion = tarea.getFechaFinalizacion();
             NotificacionAux.programarNotificacion(this, tarea.getId(), tarea.getTitulo(), fechaFinalizacion);
+
+            // Encolar el Worker para enviar la tarea al servidor
+            enviarTareaRemota(tarea);
+
             finish(); // Regresa a la MainActivity
         } else {
             Toast.makeText(this, R.string.err_tarea_añadida, Toast.LENGTH_SHORT).show();
@@ -147,6 +156,40 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
             coordenadas = latitud + " , " + longitud;
             etCoordenadas.setText(coordenadas);
         }
+    }
+    private void enviarTareaRemota(Tarea tarea) {
+        Data data = new Data.Builder()
+                .putString("titulo", tarea.getTitulo())
+                .putString("descripcion", tarea.getDescripcion())
+                .putLong("fechaCreacion", tarea.getFechaCreacion())
+                .putLong("fechaFinalizacion", tarea.getFechaFinalizacion())
+                .putInt("completado", tarea.isCompletado() ? 1 : 0)
+                .putInt("prioridad", tarea.getPrioridad())
+                .putInt("usuarioId", tarea.getUsuId())
+                .putString("coordenadas", tarea.getCoordenadas())
+                .build();
+
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(TareaWorker.class)
+                .setInputData(data)
+                .build();
+
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(workRequest.getId())
+                .observe(this, workInfo -> {
+                    if (workInfo != null && workInfo.getState().isFinished()) {
+                        if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                            int tareaIdRemota = workInfo.getOutputData().getInt("id", -1);
+                            if (tareaIdRemota != -1) {
+                                Toast.makeText(this, "Tarea registrada remotamente", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Error en el registro remoto", Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (workInfo.getState() == WorkInfo.State.FAILED) {
+                            Toast.makeText(this, "Error en el registro remoto", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        WorkManager.getInstance(this).enqueue(workRequest);
     }
 
 }
