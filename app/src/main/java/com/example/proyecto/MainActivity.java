@@ -263,7 +263,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-
+        sincronizarOperacionesPendientes(this);  // Intentar sincronizar los cambios pendientes con el servidor
         obtenerYActualizarPerfil();
     }
     @Override
@@ -580,6 +580,65 @@ public class MainActivity extends BaseActivity {
         }
         cursor.close();
         return imagenBytes;
+    }
+
+    private void sincronizarOperacionesPendientes(Context context) {
+        if (!hayInternet()) {
+            // Toast para notificar que no se pudo sincronizar por no tener conexión
+            return;
+        }
+        // Obtener las operaciones pendientes desde la tabla "sync_operations"
+        List<SyncOperation> operaciones = obtenerOperacionesPendientes(context);
+
+        // Para cada registro, construir un objeto Data y encolar el Worker
+        for (SyncOperation op : operaciones) {
+            Data inputData = new Data.Builder()
+                    .putInt("syncId", op.getId())
+                    .putString("accion", op.getAccion())
+                    .putInt("localId", op.getLocalId())
+                    .putString("titulo", op.getTitulo())
+                    .putString("descripcion", op.getDescripcion())
+                    .putLong("fechaCreacion", op.getFechaCreacion())
+                    .putLong("fechaFinalizacion", op.getFechaFinalizacion())
+                    .putInt("completado", op.getCompletado())
+                    .putInt("prioridad", op.getPrioridad())
+                    .putInt("usuarioId", op.getUsuarioId())
+                    .putString("coordenadas", op.getLocalizacion())
+                    .build();
+
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SyncTareaWorker.class)
+                    .setInputData(inputData)
+                    .build();
+
+            WorkManager.getInstance(context).enqueue(workRequest);
+        }
+    }
+    @SuppressLint("Range")
+    public List<SyncOperation> obtenerOperacionesPendientes(Context context) {
+        List<SyncOperation> operaciones = new ArrayList<>();
+        miBD dbHelper = miBD.getMiBD(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM sync_operations ORDER BY id DESC", null); // Orden descendente ya que si hay varios cambios sobre la misma tarea normalmente se van a ejecutar al mismo tiempo y lo mejor es que se ejecute la ultima operacion
+        if (cursor.moveToFirst()) {
+            do {
+                SyncOperation op = new SyncOperation();
+                op.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                op.setLocalId(cursor.getInt(cursor.getColumnIndex("localId")));
+                op.setAccion(cursor.getString(cursor.getColumnIndex("accion")));
+                op.setTitulo(cursor.getString(cursor.getColumnIndex("titulo")));
+                op.setDescripcion(cursor.getString(cursor.getColumnIndex("descripcion")));
+                op.setFechaCreacion(cursor.getLong(cursor.getColumnIndex("fechaCreacion")));
+                op.setFechaFinalizacion(cursor.getLong(cursor.getColumnIndex("FechaFinalizacion")));
+                op.setCompletado(cursor.getInt(cursor.getColumnIndex("completado")));
+                op.setPrioridad(cursor.getInt(cursor.getColumnIndex("prioridad")));
+                op.setUsuarioId(cursor.getInt(cursor.getColumnIndex("usuarioId")));
+                op.setLocalizacion(cursor.getString(cursor.getColumnIndex("localizacion")));
+                operaciones.add(op);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return operaciones;
     }
 
 }
