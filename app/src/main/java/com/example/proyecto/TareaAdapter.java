@@ -19,6 +19,9 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -87,6 +90,16 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
             listaTareas.remove(pos);
             notifyItemRemoved(pos);
 
+            Data data = new Data.Builder()
+                    .putString("accion", "completar")
+                    .putInt("usuarioId", tarea.getUsuId())
+                    .putInt("localId", tarea.getId())
+                    .build();
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SyncTareaWorker.class)
+                    .setInputData(data)
+                    .build();
+            WorkManager.getInstance(context).enqueue(workRequest);
+
             // Si ya no quedan tareas, invocar el callback para disparar la notificación
             if (listaTareas.isEmpty() && onAllTasksCompletedListener != null) {
                 onAllTasksCompletedListener.onAllTasksCompleted();
@@ -118,6 +131,16 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
                             Tarea tareaEliminada = listaTareas.get(pos);
                             listaTareas.remove(pos);
                             notifyItemRemoved(pos);
+                            //Actualizar en el servidor
+                            Data data = new Data.Builder()
+                                    .putString("accion", "eliminar")
+                                    .putInt("localId", tarea.getId())
+                                    .putInt("usuarioId", tarea.getUsuId())
+                                    .build();
+                            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SyncTareaWorker.class)
+                                    .setInputData(data)
+                                    .build();
+                            WorkManager.getInstance(context).enqueue(workRequest);
                             // Limpiar lista de la actividad principal para que no haya incongruencias de código
                             if (context instanceof MainActivity) {
                                 ((MainActivity) context).eliminarTareaDeLista(tareaEliminada);

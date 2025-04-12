@@ -159,6 +159,7 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
     }
     private void enviarTareaRemota(Tarea tarea) {
         Data data = new Data.Builder()
+                .putString("accion", "crear")
                 .putString("titulo", tarea.getTitulo())
                 .putString("descripcion", tarea.getDescripcion())
                 .putLong("fechaCreacion", tarea.getFechaCreacion())
@@ -170,7 +171,7 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
                 .putInt("localId", tarea.getId())
                 .build();
 
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(TareaWorker.class)
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SyncTareaWorker.class)
                 .setInputData(data)
                 .build();
 
@@ -180,12 +181,12 @@ public class NuevaTareaActivity extends BaseActivity implements OnFechaSelectedL
                         if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                             int tareaIdRemota = workInfo.getOutputData().getInt("id", -1);
                             if (tareaIdRemota != -1) {
-                                Toast.makeText(this, "Tarea registrada remotamente", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.serv_crear, Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(this, "Error en el registro remoto", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.serv_err_tarea, Toast.LENGTH_SHORT).show();
                             }
                         } else if (workInfo.getState() == WorkInfo.State.FAILED) {
-                            Toast.makeText(this, "Error en el registro remoto", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, R.string.serv_err_tarea, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

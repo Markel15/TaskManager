@@ -208,6 +208,7 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
     private void sincronizarActualizacionRemota() {
         // Recoger los datos de la tarea actualizada
         Data data = new Data.Builder()
+                .putString("accion", "editar")
                 .putInt("localId", tareaId) // Aquí usamos el ID local que se sincronizó previamente con el servidor
                 .putString("titulo", etTitulo.getText().toString().trim())
                 .putString("descripcion", etDescripcion.getText().toString().trim())
@@ -218,7 +219,7 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
                 .putString("coordenadas", etCoordenadas.getText().toString().trim())
                 .build();
 
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(EditTareaWorker.class)
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SyncTareaWorker.class)
                 .setInputData(data)
                 .build();
 

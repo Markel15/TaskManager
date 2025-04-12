@@ -338,6 +338,8 @@ public class MainActivity extends BaseActivity {
                 tarea.setFechaFinalizacion(cursor.getLong(cursor.getColumnIndex("FechaFinalizacion")));
                 tarea.setCompletado(cursor.getInt(cursor.getColumnIndex("completado")) == 1);
                 tarea.setPrioridad(cursor.getInt(cursor.getColumnIndex("prioridad")));
+                tarea.setUsuId(cursor.getInt(cursor.getColumnIndex("usuarioId")));
+                tarea.setCoordenadas(cursor.getString(cursor.getColumnIndex("localizacion")));
                 tareas.add(tarea);
             } while (cursor.moveToNext());
         }

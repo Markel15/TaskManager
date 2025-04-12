@@ -69,4 +69,6 @@
     <string name="err_bd_foto">Error updating local database</string>
     <string name="err_http">"HTTP error connecting: "</string>
     <string name="err_foto">Error updating profile picture</string>
+    <string name="serv_crear">The task is saved in the server</string>
+    <string name="serv_err_tarea">Error trying to save task in the server</string>
 </resources>
