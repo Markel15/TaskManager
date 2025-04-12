@@ -70,4 +70,5 @@
     <string name="err_foto">Error al actualizar la imagen de perfil</string>
     <string name="serv_crear">Tarea registrada remotamente</string>
     <string name="serv_err_tarea">Error guardando la tarea en el servidor</string>
+    <string name="err_sinc_tar_serv">Error sincronizando las tareas con el servidor, prueba con Internet</string>
 </resources>

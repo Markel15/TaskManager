@@ -71,4 +71,5 @@
     <string name="err_foto">Errorea profil argazkia eguneratzen</string>
     <string name="serv_crear">Zeregina zerbitzarian gorde da</string>
     <string name="serv_err_tarea">Errorea zeregina zerbitzarian gordetzerakoan</string>
+    <string name="err_sinc_tar_serv">Errorea zerbitzariarekin zereginak bateratzen, saiatu Internetarekin</string>
 </resources>

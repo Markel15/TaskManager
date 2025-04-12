@@ -264,6 +264,7 @@ public class MainActivity extends BaseActivity {
             }
         });
         sincronizarOperacionesPendientes(this);  // Intentar sincronizar los cambios pendientes con el servidor
+        descargarTareasRemotas(userId);
         obtenerYActualizarPerfil();
     }
     @Override
@@ -584,7 +585,7 @@ public class MainActivity extends BaseActivity {
 
     private void sincronizarOperacionesPendientes(Context context) {
         if (!hayInternet()) {
-            // Toast para notificar que no se pudo sincronizar por no tener conexión
+            Toast.makeText(this, R.string.err_sinc_tar_serv, Toast.LENGTH_SHORT).show();
             return;
         }
         // Obtener las operaciones pendientes desde la tabla "sync_operations"
@@ -639,6 +640,33 @@ public class MainActivity extends BaseActivity {
         cursor.close();
         db.close();
         return operaciones;
+    }
+
+    private void descargarTareasRemotas(int userId){
+        if (hayInternet()) {
+            Data inputData = new Data.Builder()
+                    .putInt("usuarioId", userId)
+                    .build();
+            OneTimeWorkRequest downloadRequest = new OneTimeWorkRequest.Builder(DownloadTasksWorker.class)
+                    .setInputData(inputData)
+                    .build();
+            WorkManager.getInstance(this).enqueue(downloadRequest);
+
+            WorkManager.getInstance(this).getWorkInfoByIdLiveData(downloadRequest.getId())
+                    .observe(this, workInfo -> {
+                        if (workInfo != null && workInfo.getState().isFinished()) {
+                            if (workInfo.getState() == androidx.work.WorkInfo.State.SUCCEEDED) {
+                                // Cuando se complete la descarga y se actualice la base de datos, recarga la lista
+                                runOnUiThread(() -> {
+                                    listaTareas.clear();
+                                    listaTareas.addAll(obtenerTarasParaUsu(userId));
+                                    filtroLista = new ArrayList<>(listaTareas);
+                                    adapter.notifyDataSetChanged();
+                                });
+                            }
+                        }
+                    });
+        }
     }
 
 }
