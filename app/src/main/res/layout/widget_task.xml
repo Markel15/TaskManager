@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@color/colorSurface"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Muestra el texto de la tarea aleatoria -->
+    <TextView
+        android:id="@+id/textViewTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_tareas"
+        android:textSize="16sp"
+        android:textColor="@color/onSurface"
+        android:padding="4dp" />
+
+</LinearLayout>
