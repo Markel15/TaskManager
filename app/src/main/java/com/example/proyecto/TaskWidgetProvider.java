@@ -15,13 +15,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.RemoteViews;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class TaskWidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_AUTO_UPDATE = "com.example.ACTION_AUTO_UPDATE_WIDGET";
+
+    static class TareaResumen {
+        String titulo;
+        long fechaFinalizacion;
+
+        public TareaResumen(String titulo, long fechaFinalizacion) {
+            this.titulo = titulo;
+            this.fechaFinalizacion = fechaFinalizacion;
+        }
+    }
+
 
     // Código adaptado del tema 17 de eGela: Widgets
     @Override
@@ -33,12 +47,19 @@ public class TaskWidgetProvider extends AppWidgetProvider {
 
     // Método que actualiza una instancia concreta del widget
     public static void actualizarWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
-        // Obtén la tarea aleatoria. Puedes hacer uso de tu clase miBD para acceder a la base de datos.
-        String tareaTexto = obtenerTareaAleatoria(context);
+        TareaResumen tarea = obtenerTareaAleatoria(context);
 
         // Crea y configura las RemoteViews del widget
         @SuppressLint("RemoteViewLayout") RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_task);
-        views.setTextViewText(R.id.textViewTask, tareaTexto);
+        views.setTextViewText(R.id.textViewTask, tarea.titulo);
+
+        if (tarea.fechaFinalizacion > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String fechaFormateada = sdf.format(new Date(tarea.fechaFinalizacion));
+            views.setTextViewText(R.id.textViewFecha, fechaFormateada);
+        } else {
+            views.setTextViewText(R.id.textViewFecha, "");
+        }
 
         // Actualiza el widget
         appWidgetManager.updateAppWidget(widgetId, views);
@@ -56,9 +77,8 @@ public class TaskWidgetProvider extends AppWidgetProvider {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
-        // Intervalo de 5 minutos (5 * 60 * 1000 ms)
-        long interval = 1 * 60 * 1000;
-        // Programar la alarma para que se repita cada 5 minutos
+        long interval = 60 * 1000;
+        // Programar la alarma para que se repita cada minuto
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval, interval, pendingIntent);
     }
 
@@ -90,7 +110,8 @@ public class TaskWidgetProvider extends AppWidgetProvider {
     }
 
     // Método auxiliar para obtener una tarea aleatoria de las tareas no completadas
-    private static String obtenerTareaAleatoria(Context context) {
+    @SuppressLint("Range")
+    private static TareaResumen obtenerTareaAleatoria(Context context) {
         // Abre la base de datos usando tu SQLiteOpenHelper
         miBD dbHelper = miBD.getMiBD(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -98,19 +119,20 @@ public class TaskWidgetProvider extends AppWidgetProvider {
         int userId = prefs.getInt("idDeUsuario", -1);
 
         // Consulta las tareas no completadas del usuario
-        Cursor cursor = db.rawQuery("SELECT titulo FROM tareas WHERE completado = 0 AND usuarioId = ?", new String[]{ String.valueOf(userId)});
-        List<String> tareas = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT titulo, FechaFinalizacion FROM tareas WHERE completado = 0 AND usuarioId = ?", new String[]{ String.valueOf(userId) });
+        List<TareaResumen> tareas = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") String titulo = cursor.getString(cursor.getColumnIndex("titulo"));
-                tareas.add(titulo);
+                String titulo = cursor.getString(cursor.getColumnIndex("titulo"));
+                long fechaFinal = cursor.getLong(cursor.getColumnIndex("FechaFinalizacion"));
+                tareas.add(new TareaResumen(titulo, fechaFinal));
             } while (cursor.moveToNext());
         }
         cursor.close();
 
         // Si no hay tareas pendientes, mostrar un mensaje por defecto.
         if (tareas.isEmpty()) {
-            return "No hay tareas pendientes";
+            return new TareaResumen(context.getString(R.string.no_tareas), 0);
         } else {
             // Seleccionar una tarea al azar
             int indice = new Random().nextInt(tareas.size());
