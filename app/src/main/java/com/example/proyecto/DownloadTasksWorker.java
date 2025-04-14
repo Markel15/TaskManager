@@ -64,7 +64,7 @@ public class DownloadTasksWorker extends Worker {
                     miBD dbHelper = miBD.getMiBD(getApplicationContext());
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-                    // Eliminar todas las tareas del usuario para evitar duplicados
+                    // Eliminar todas las tareas del usuario para evitar duplicados (en el que el mismo usuario cree una tarea en una base de datos vacía 2 veces y tendría 2 taraeas con el mismo id local (1) por eso se elimina la base de datos antes de descargar las tareas del servidor
                     db.delete("tareas", null,null);
 
                     for (int i = 0; i < tareasArray.length(); i++) {
