@@ -9,12 +9,14 @@ import androidx.annotation.Nullable;
 public class miBD extends SQLiteOpenHelper {
 
     private static final String NOMBRE = "tareas.db";
-    private static final int VERSION = 2;
+    private static final int VERSION = 3;
 
     private static miBD miBD = null;
+    private Context context;
 
     private miBD(@Nullable Context context) {
         super(context, NOMBRE, null, VERSION);
+        this.context = context;
     }
 
     public static miBD getMiBD(Context context) {
@@ -44,8 +46,23 @@ public class miBD extends SQLiteOpenHelper {
                 "password TEXT NOT NULL, " +
                 "imagenPerfil MEDIUMBLOB" +
                 ");";
+        String comando3 = "CREATE TABLE sync_operations (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "localId INTEGER," +
+                "accion TEXT NOT NULL," +
+                "titulo TEXT , " +
+                "descripcion TEXT, " +
+                "fechaCreacion INTEGER, " +
+                "FechaFinalizacion INTEGER, " +
+                "completado INTEGER DEFAULT 0, " +
+                "prioridad INTEGER DEFAULT 0," +
+                "usuarioId INTEGER NOT NULL," +
+                "localizacion TEXT, " +
+                "FOREIGN KEY (usuarioId) REFERENCES usuarios(id) ON DELETE CASCADE"+
+                ");";
         db.execSQL(comando1);
         db.execSQL(comando2);
+        db.execSQL(comando3);
     }
 
     @Override
@@ -55,7 +72,14 @@ public class miBD extends SQLiteOpenHelper {
         }
         else {
             db.execSQL("DROP TABLE IF EXISTS tareas");
+            db.execSQL("DROP TABLE IF EXISTS usuarios");
+            db.execSQL("DROP TABLE IF EXISTS sync_operations");
             onCreate(db);
         }
+        // Limpiar preferencias para evitar que hayan incongruencias
+        context.getSharedPreferences("MiAppPrefs", Context.MODE_PRIVATE)
+                .edit()
+                .clear()
+                .apply();
     }
 }

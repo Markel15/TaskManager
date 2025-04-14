@@ -18,6 +18,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -181,6 +185,10 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
             NotificacionAux.cancelarNotificacion(this, tareaId);
             // Programar una nueva notificación con la fecha actualizada
             NotificacionAux.programarNotificacion(this, tareaId, titulo, fechaFinalSeleccionada);
+
+            // Encolar el Worker para sincronizar la actualización remota
+            sincronizarActualizacionRemota();
+
             finish(); // Regresa a la actividad anterior (MainActivity)
         } else {
             Toast.makeText(this, R.string.err_tarea_actualizada, Toast.LENGTH_SHORT).show();
@@ -196,6 +204,26 @@ public class EditTareaActivity extends BaseActivity implements OnFechaSelectedLi
             coordenadas = latitud + " , " + longitud;
             etCoordenadas.setText(coordenadas);
         }
+    }
+    private void sincronizarActualizacionRemota() {
+        // Recoger los datos de la tarea actualizada
+        Data data = new Data.Builder()
+                .putString("accion", "editar")
+                .putInt("localId", tareaId) // Aquí usamos el ID local que se sincronizó previamente con el servidor
+                .putString("titulo", etTitulo.getText().toString().trim())
+                .putString("descripcion", etDescripcion.getText().toString().trim())
+                .putLong("fechaCreacion", fechaCreacion)
+                .putLong("fechaFinalizacion", fechaFinalSeleccionada)
+                .putInt("prioridad", spPrioridad.getSelectedItemPosition())
+                .putInt("usuarioId", getSharedPreferences("MiAppPrefs", MODE_PRIVATE).getInt("idDeUsuario", -1))
+                .putString("coordenadas", etCoordenadas.getText().toString().trim())
+                .build();
+
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SyncTareaWorker.class)
+                .setInputData(data)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(workRequest);
     }
 
 }

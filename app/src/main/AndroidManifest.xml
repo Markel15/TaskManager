@@ -53,6 +53,19 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".TaskWidgetProvider"
+            android:label="Widget de Tareas"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.ACTION_AUTO_UPDATE_WIDGET" />
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_task_info" />
+        </receiver>
     </application>
 
 </manifest>

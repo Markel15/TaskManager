@@ -68,4 +68,8 @@
     <string name="err_bd_foto">Error al actualizar la base de datos local</string>
     <string name="err_http">"Error HTTP al conectarse: "</string>
     <string name="err_foto">Error al actualizar la imagen de perfil</string>
+    <string name="serv_crear">Tarea registrada remotamente</string>
+    <string name="serv_err_tarea">Error guardando la tarea en el servidor</string>
+    <string name="err_sinc_tar_serv">Error sincronizando las tareas con el servidor, prueba con Internet</string>
+    <string name="no_tareas">No hay tareas para mostrar</string>
 </resources>
