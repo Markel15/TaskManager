@@ -266,6 +266,7 @@ public class MainActivity extends BaseActivity {
         sincronizarOperacionesPendientes(this);  // Intentar sincronizar los cambios pendientes con el servidor
         descargarTareasRemotas(userId);
         obtenerYActualizarPerfil();
+        adapter.notifyDataSetChanged();  // Por si todavía quedaba alguna actualización de la lista pendiente
     }
     @Override
     protected void onResume() {

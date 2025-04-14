@@ -65,12 +65,12 @@ public class DownloadTasksWorker extends Worker {
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
 
                     // Eliminar todas las tareas del usuario para evitar duplicados
-                    db.delete("tareas", "usuarioId=?", new String[]{String.valueOf(usuarioId)});
+                    db.delete("tareas", null,null);
 
                     for (int i = 0; i < tareasArray.length(); i++) {
                         JSONObject tareaJson = tareasArray.getJSONObject(i);
                         ContentValues cv = new ContentValues();
-                        // Supone que "localId" es el valor que vamos a usar en la BD local
+                        // "localId" del servidor es el valor que se usará como id en este caso
                         cv.put("id", tareaJson.getInt("localId"));
                         cv.put("titulo", tareaJson.getString("titulo"));
                         cv.put("descripcion", tareaJson.getString("descripcion"));
