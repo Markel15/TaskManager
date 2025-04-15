@@ -28,7 +28,7 @@ public class LoginWorker extends Worker {
         String password = getInputData().getString("password");
 
         try {
-            URL destino = new URL("http://ec2-51-44-167-78.eu-west-3.compute.amazonaws.com/mhernandez141/WEB/loginUser.php");
+            URL destino = new URL("http://ec2-51-44-167-78.eu-west-3.compute.amazonaws.com/mhernandez141/WEB/register_login.php");
             HttpURLConnection connection = (HttpURLConnection) destino.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
