@@ -29,7 +29,7 @@ public class RegisterWorker extends Worker {
 
         try {
             // Código adaptado del tema 14 de eGela,
-            URL destino = new URL("http://ec2-51-44-167-78.eu-west-3.compute.amazonaws.com/mhernandez141/WEB/registerUser.php");
+            URL destino = new URL("http://ec2-51-44-167-78.eu-west-3.compute.amazonaws.com/mhernandez141/WEB/register_login.php");
             HttpURLConnection connection = (HttpURLConnection) destino.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
