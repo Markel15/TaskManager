@@ -16,6 +16,7 @@ TaskManager es una aplicación de gestión de tareas para Android que permite a 
   - `androidx.navigation.ui`
   - `androidx.cardview`
   - `org.mindrot.jbcrypt` (para el cifrado de contraseñas)
+  - `osmdroid`
 
 ## Permisos requeridos
 
@@ -24,6 +25,10 @@ La aplicación requiere los siguientes permisos en Android:
 - `POST_NOTIFICATIONS` para enviar notificaciones al usuario.
 - `SCHEDULE_EXACT_ALARM` para programar recordatorios de tareas.
 - `RECEIVE_BOOT_COMPLETED` para restaurar notificaciones después de reiniciar el dispositivo.
+- `ACCESS_FINE_LOCATION` para obtener la localización del usuario.
+- `ACCESS_COARSE_LOCATION` para obtener la localización del usuario
+- `INTERNET` para sincronización con el servidor
+- `ACCESS_NETWORK_STATE` para comprobar la conexión a Internet
 
 ## Instalación y ejecución local
 
