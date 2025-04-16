@@ -136,6 +136,8 @@ public class LoginActivity extends BaseActivity {
         }
         return false;
     }
+
+    // Para registrar al usuario en la base de datos local en caso de que sea la primera vez que inicia sesión en este dispositivo.
     private boolean registerUserLocal(int userId, String username, String password) {
         SQLiteDatabase bd = miDb.getWritableDatabase();
 
